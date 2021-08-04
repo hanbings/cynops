@@ -1,4 +1,4 @@
-package io.hanbings.cynops.security.digest;
+package io.hanbings.cynops.security;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+@SuppressWarnings("unused")
 public class ShaUtils {
     // SHA-1 SHA-256 SHA-384 SHA-512
     public enum ShaType {
@@ -62,6 +63,46 @@ public class ShaUtils {
     }
 
     /**
+     * 连续几个类型的SHA计算
+     *
+     * @param source 原字符串
+     * @return SHA结果
+     */
+    public static String sha1(String source) {
+        return sha(ShaType.SHA1, source);
+    }
+
+    /**
+     * 连续几个类型的SHA计算
+     *
+     * @param source 原字符串
+     * @return SHA结果
+     */
+    public static String sha256(String source) {
+        return sha(ShaType.SHA256, source);
+    }
+
+    /**
+     * 连续几个类型的SHA计算
+     *
+     * @param source 原字符串
+     * @return SHA结果
+     */
+    public static String sha384(String source) {
+        return sha(ShaType.SHA384, source);
+    }
+
+    /**
+     * 连续几个类型的SHA计算
+     *
+     * @param source 原字符串
+     * @return SHA结果
+     */
+    public static String sha512(String source) {
+        return sha(ShaType.SHA512, source);
+    }
+
+    /**
      * 计算文件SHA
      *
      * @param source 文件 计算速度可能会受IO性能影响 这里缓存是1M
@@ -91,5 +132,45 @@ public class ShaUtils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 连续几个类型的SHA计算
+     *
+     * @param source 原文件
+     * @return SHA结果
+     */
+    public static String sha1(File source) {
+        return sha(ShaType.SHA1, source);
+    }
+
+    /**
+     * 连续几个类型的SHA计算
+     *
+     * @param source 原文件
+     * @return SHA结果
+     */
+    public static String sha256(File source) {
+        return sha(ShaType.SHA256, source);
+    }
+
+    /**
+     * 连续几个类型的SHA计算
+     *
+     * @param source 原文件
+     * @return SHA结果
+     */
+    public static String sha384(File source) {
+        return sha(ShaType.SHA384, source);
+    }
+
+    /**
+     * 连续几个类型的SHA计算
+     *
+     * @param source 原文件
+     * @return SHA结果
+     */
+    public static String sha512(File source) {
+        return sha(ShaType.SHA512, source);
     }
 }
