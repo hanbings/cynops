@@ -1,8 +1,8 @@
 package io.hanbings.cynops.event;
 
 import io.hanbings.cynops.event.interfaces.EventBus;
-import io.hanbings.cynops.event.interfaces.EventHandler;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -12,16 +12,16 @@ import java.util.Map;
 
 @SuppressWarnings("unused")
 public class InstanceEventBus implements EventBus {
-    private final Map<Event, List<Method>> handlers = new HashMap<>();
-    private EventHandler annotation = null;
+    private final Map<Class<? extends Event>, List<Method>> handlers = new HashMap<>();
+    private Annotation annotation = null;
 
     @Override
-    public void setEventHandlerAnnotation(EventHandler annotation) {
+    public void setEventHandlerAnnotation(Annotation annotation) {
         this.annotation = annotation;
     }
 
     @Override
-    public void callEvent(Event event) {
+    public void callEvent(Class<? extends Event> event) {
         if (!handlers.containsKey(event)) {
             return;
         }
@@ -36,27 +36,47 @@ public class InstanceEventBus implements EventBus {
     }
 
     @Override
-    public List<Method> getEventHandler(Event event) {
+    public List<Method> getEventHandler(Class<? extends Event> event) {
         return handlers.get(event);
     }
 
     @Override
-    public void registerEvent(Event event) {
+    public void registerEvent(Class<? extends Event> event) {
         if (!handlers.containsKey(event)) {
             handlers.put(event, new ArrayList<>());
         }
     }
 
     @Override
-    public void unregisterEvent(Event event) {
+    public void unregisterEvent(Class<? extends Event> event) {
         handlers.remove(event);
     }
 
     @Override
-    public void registerListener(Object listener) {
+    public void registerListener(Class<?> listener) {
+        for (Method method : listener.getDeclaredMethods()) {
+            if (method.isAnnotationPresent(annotation.getClass())) {
+                final Class<?> event;
+                method.setAccessible(true);
+                event = method.getParameterTypes()[0];
+                if (handlers.containsKey(event)) {
+                    handlers.get(event).add(method);
+                }
+            }
+        }
     }
 
     @Override
-    public void unregisterListener(Object listener) {
+    public void unregisterListener(Class<?> listener) {
+        for (Method method : listener.getDeclaredMethods()) {
+            if (method.isAnnotationPresent(annotation.getClass())) {
+                final Class<?> event;
+                method.setAccessible(true);
+                event = method.getParameterTypes()[0];
+                if (handlers.containsKey(event)) {
+                    handlers.get(event).remove(method);
+                }
+            }
+        }
     }
 }
