@@ -7,6 +7,7 @@ public class EventTest {
         EventBus eventBus = new EventBus();
         TestEvent testEvent = new TestEvent();
         TestListener testListener = new TestListener();
+        eventBus.setHandlerAnnotation(TestEventHandler.class);
         eventBus.registerEvent(testEvent);
         eventBus.registerListener(testListener);
         eventBus.callEvent(testEvent);
