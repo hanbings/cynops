@@ -1,4 +1,4 @@
-package io.hanbings.cynops.event.interfaces;
+package io.hanbings.cynops.event;
 
 import java.lang.annotation.*;
 
