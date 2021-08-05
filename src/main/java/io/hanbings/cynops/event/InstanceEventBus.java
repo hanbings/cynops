@@ -11,15 +11,17 @@ import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("unused")
-public class SingletonEventBus implements EventBus {
-    private final Map<Class<? extends Event>, List<Method>> handlers = new HashMap<>();
-    private Class<? extends EventHandler> annotation = null;
+public class InstanceEventBus implements EventBus {
+    private final Map<Event, List<Method>> handlers = new HashMap<>();
+    private EventHandler annotation = null;
 
-    public void setEventHandlerAnnotation(Class<? extends EventHandler> annotation) {
+    @Override
+    public void setEventHandlerAnnotation(EventHandler annotation) {
         this.annotation = annotation;
     }
 
-    public void callEvent(Class<? extends Event> event) {
+    @Override
+    public void callEvent(Event event) {
         if (!handlers.containsKey(event)) {
             return;
         }
@@ -33,23 +35,28 @@ public class SingletonEventBus implements EventBus {
         }
     }
 
-    public List<Method> getEventHandler(Class<? extends Event> event) {
+    @Override
+    public List<Method> getEventHandler(Event event) {
         return handlers.get(event);
     }
 
-    public void registerEvent(Class<? extends Event> event) {
+    @Override
+    public void registerEvent(Event event) {
         if (!handlers.containsKey(event)) {
             handlers.put(event, new ArrayList<>());
         }
     }
 
-    public void unregisterEvent(Class<? extends Event> event) {
+    @Override
+    public void unregisterEvent(Event event) {
         handlers.remove(event);
     }
 
+    @Override
     public void registerListener(Object listener) {
     }
 
+    @Override
     public void unregisterListener(Object listener) {
     }
 }

@@ -1,5 +1,8 @@
 package io.hanbings.cynops.event;
 
+import io.hanbings.cynops.event.exception.EventNameNullException;
+
+@SuppressWarnings("unused")
 public class Event {
     private String name = null;
 
@@ -12,6 +15,10 @@ public class Event {
     }
 
     public String getEventName() {
-        return name;
+        if (name == null){
+            throw new EventNameNullException("Event Name is Null");
+        } else {
+            return name;
+        }
     }
 }

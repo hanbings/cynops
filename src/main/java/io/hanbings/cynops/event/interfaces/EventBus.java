@@ -7,15 +7,15 @@ import java.util.List;
 
 @SuppressWarnings("unused")
 public interface EventBus {
-    void setEventHandlerAnnotation(Class<? extends EventHandler> annotation);
+    void setEventHandlerAnnotation(EventHandler annotation);
 
-    void callEvent(Class<? extends Event> event);
+    void callEvent(Event event);
 
-    List<Method> getEventHandler(Class<? extends Event> event);
+    List<Method> getEventHandler(Event event);
 
-    void registerEvent(Class<? extends Event> event);
+    void registerEvent(Event event);
 
-    void unregisterEvent(Class<? extends Event> event);
+    void unregisterEvent(Event event);
 
     void registerListener(Object listener);
 
