@@ -1,7 +1,5 @@
 package io.hanbings.cynops.event.interfaces;
 
-import io.hanbings.cynops.event.EventPriority;
-
 import java.lang.annotation.*;
 
 @Documented

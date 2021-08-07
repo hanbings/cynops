@@ -1,5 +1,7 @@
 package io.hanbings.cynops.event;
 
+import io.hanbings.cynops.event.interfaces.EventPriority;
+
 import java.util.ArrayList;
 import java.util.List;
 
