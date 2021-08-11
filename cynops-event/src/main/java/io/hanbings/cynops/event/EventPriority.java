@@ -1,4 +1,4 @@
-package io.hanbings.cynops.event.interfaces;
+package io.hanbings.cynops.event;
 
 /**
  * 很高兴的告诉您, 我在抄bukkit的同时 <br>

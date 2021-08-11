@@ -1,2 +1,4 @@
-rootProject.name = 'Cynops'
+rootProject.name = 'cynops'
+include 'cynops-common'
+include 'cynops-event'
 

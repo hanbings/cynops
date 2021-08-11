@@ -1,6 +1,5 @@
 package io.hanbings.cynops.event;
 
-import io.hanbings.cynops.event.interfaces.EventPriority;
 import io.hanbings.cynops.event.interfaces.Listener;
 
 import java.lang.reflect.Method;

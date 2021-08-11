@@ -1,4 +1,4 @@
-package io.hanbings.cynops.security;
+package io.hanbings.common.util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -149,3 +149,4 @@ public class MdUtils {
         return md(MdType.MD5, source);
     }
 }
+

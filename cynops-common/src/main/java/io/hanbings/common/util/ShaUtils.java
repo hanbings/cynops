@@ -1,4 +1,4 @@
-package io.hanbings.cynops.security;
+package io.hanbings.common.util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -174,3 +174,4 @@ public class ShaUtils {
         return sha(ShaType.SHA512, source);
     }
 }
+
