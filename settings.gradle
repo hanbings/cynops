@@ -1,4 +1,10 @@
 rootProject.name = 'cynops'
 include 'cynops-common'
 include 'cynops-event'
+include 'cynops-extra'
+include 'cynops-script'
+include 'cynops-server'
+include 'cynops-tool'
+include 'cynops-database'
+include 'cynops-task'
 
