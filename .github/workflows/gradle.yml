@@ -30,7 +30,10 @@ jobs:
       - name: Build with Gradle (jar)
         run: ./gradlew jar
 
-      - uses: actions/upload-artifact@v2
+      - name: Build with Gradle (collect)
+        run: ./gradlew collect
+
+      - name: Package to Actions Artifact
         with:
-          name: Package
+          uses: actions/upload-artifact@v2
           path: build/libs
