@@ -259,7 +259,7 @@ public class BaseCodeUtils {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public static String encode(BaseType type, File source) {
         Base64.Encoder encoder = checkEncoder(type);
-        InputStream input = null;
+        InputStream input;
         try {
             input = new FileInputStream(source);
             byte[] bytes = new byte[(int) source.length()];
@@ -289,8 +289,8 @@ public class BaseCodeUtils {
             // 好像我看见很多地方都用的 3 * 1024 ＊ 1024
             // 那就这样吧 如果知道为什么和我说一说 qwq
             byte[] temp = new byte[3 * 1024 * 1024];
-            byte[] base64 = null;
-            int count = 0;
+            byte[] base64;
+            int count;
             // 读源文件 并加载到缓冲区
             while ((count = input.read(temp)) != -1) {
                 if (count != temp.length) {
@@ -347,8 +347,8 @@ public class BaseCodeUtils {
             // 好像我看见很多地方都用的 3 * 1024 ＊ 1024
             // 那就这样吧 如果知道为什么和我说一说 qwq
             byte[] temp = new byte[3 * 1024 * 1024];
-            byte[] bytes = null;
-            int count = 0;
+            byte[] bytes;
+            int count;
             // 读源文件 并加载到缓冲区
             while ((count = input.read(temp)) != -1) {
                 if (count != temp.length) {
