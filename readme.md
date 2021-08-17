@@ -2,6 +2,8 @@
 
 
 
+![Github License](https://img.shields.io/github/license/hanbings/cynops?style=flat-square) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/hanbings/cynops/main?style=flat-square) ![Version](https://img.shields.io/badge/java version-jdk 11-orange?style=flat-square) ![GitHub Last Commit](https://img.shields.io/github/last-commit/hanbings/cynops?style=flat-square) [![Blog](https://img.shields.io/badge/blog-@hanbings-blue.svg?style=flat-square)](https://blog.hanbings.io) 
+
 ### 自我介绍：
 
 你好！很高兴遇见你！我的名字叫蝾螈！
