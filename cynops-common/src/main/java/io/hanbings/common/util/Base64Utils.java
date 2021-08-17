@@ -28,7 +28,7 @@ import java.util.Base64;
  * 此类中有部分方法会导致内存溢出 具体方法注释中会特殊标明
  */
 @SuppressWarnings("unused")
-public class BaseCodeUtils {
+public class Base64Utils {
     public enum BaseType {
         BASIC,
         MIME,
