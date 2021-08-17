@@ -17,3 +17,10 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+task collect(type: Copy) {
+    destinationDir = file('build/libs')
+    subprojects.each { project ->
+        from project.file('build/libs')
+    }
+}
