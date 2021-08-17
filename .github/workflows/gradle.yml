@@ -33,7 +33,7 @@ jobs:
       - name: Build with Gradle (collect)
         run: ./gradlew collect
 
-      - name: Package to Actions Artifact
+      - uses: actions/upload-artifact@v2
         with:
-          uses: actions/upload-artifact@v2
+          name: Package to Actions Artifact
           path: build/libs
