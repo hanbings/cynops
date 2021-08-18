@@ -14,64 +14,60 @@
  * limitations under the License.
  */
 
-package io.hanbings.common.util;
+package io.hanbings.cynops.security;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 @SuppressWarnings("unused")
-public class ShaUtils {
-    // SHA-1 SHA-256 SHA-384 SHA-512
-    public enum ShaType {
-        SHA1 {
+public class MdUtils {
+    // MD2 MD4 MD5
+    public enum MdType {
+        MD2 {
             @Override
             public String toString() {
-                return "SHA-1";
+                return "md2";
             }
         },
-        SHA256 {
+        MD4 {
             @Override
             public String toString() {
-                return "SHA-256";
+                return "md4";
             }
         },
-        SHA384 {
+        MD5 {
             @Override
             public String toString() {
-                return "SHA-384";
-            }
-        },
-        SHA512 {
-            @Override
-            public String toString() {
-                return "SHA-512";
+                return "md5";
             }
         }
     }
 
     /**
-     * 计算字符串SHA
+     * 简单计算字符串MD值
      *
-     * @param source 字符串
-     * @param type   SHA类型 SHA-1 SHA-256 SHA-384 SHA-512
-     * @return 返回计算的SHA结果
+     * @param source 原字符串
+     * @return MD5结果
      */
-    public static String sha(ShaType type, String source) {
+    public static String md(MdType type, String source) {
         if (source == null || source.length() == 0) {
             return null;
         }
         try {
             MessageDigest messageDigest = MessageDigest.getInstance(type.toString());
-            byte[] byteArray = messageDigest.digest(source.getBytes(StandardCharsets.UTF_8));
-            StringBuilder stringBuilder = new StringBuilder();
+            messageDigest.update(source.getBytes());
+            byte[] byteArray = messageDigest.digest();
+            char[] hexDigits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+            char[] charArray = new char[byteArray.length * 2];
+            int index = 0;
             for (byte temp : byteArray) {
-                stringBuilder.append(String.format("%02x", temp));
+                charArray[index++] = hexDigits[temp >>> 4 & 0xf];
+                charArray[index++] = hexDigits[temp & 0xf];
             }
-            return stringBuilder.toString();
+            return new String(charArray);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
@@ -79,53 +75,42 @@ public class ShaUtils {
     }
 
     /**
-     * 连续几个类型的SHA计算
+     * 连续几个类型的MD计算
      *
      * @param source 原字符串
-     * @return SHA结果
+     * @return MD结果
      */
-    public static String sha1(String source) {
-        return sha(ShaType.SHA1, source);
+    public static String md2(String source) {
+        return md(MdType.MD2, source);
     }
 
     /**
-     * 连续几个类型的SHA计算
+     * 连续几个类型的MD计算
      *
      * @param source 原字符串
-     * @return SHA结果
+     * @return MD结果
      */
-    public static String sha256(String source) {
-        return sha(ShaType.SHA256, source);
+    public static String md4(String source) {
+        return md(MdType.MD4, source);
     }
 
     /**
-     * 连续几个类型的SHA计算
+     * 连续几个类型的MD计算
      *
      * @param source 原字符串
-     * @return SHA结果
+     * @return MD结果
      */
-    public static String sha384(String source) {
-        return sha(ShaType.SHA384, source);
+    public static String md5(String source) {
+        return md(MdType.MD5, source);
     }
 
     /**
-     * 连续几个类型的SHA计算
+     * 从一个文件计算MD值
      *
-     * @param source 原字符串
-     * @return SHA结果
+     * @param source 原文件
+     * @return 文件计算得出的MD5
      */
-    public static String sha512(String source) {
-        return sha(ShaType.SHA512, source);
-    }
-
-    /**
-     * 计算文件SHA
-     *
-     * @param source 文件 计算速度可能会受IO性能影响 这里缓存是1M
-     * @param type   SHA类型 SHA-1 SHA-256 SHA-384 SHA-512
-     * @return 返回计算的SHA结果
-     */
-    public static String sha(ShaType type, File source) {
+    public static String md(MdType type, File source) {
         if (source == null || source.length() == 0) {
             return null;
         }
@@ -151,43 +136,33 @@ public class ShaUtils {
     }
 
     /**
-     * 连续几个类型的SHA计算
+     * 连续几个类型的MD计算
      *
      * @param source 原文件
-     * @return SHA结果
+     * @return MD结果
      */
-    public static String sha1(File source) {
-        return sha(ShaType.SHA1, source);
+    public static String md2(File source) {
+        return md(MdType.MD2, source);
     }
 
     /**
-     * 连续几个类型的SHA计算
+     * 连续几个类型的MD计算
      *
      * @param source 原文件
-     * @return SHA结果
+     * @return MD结果
      */
-    public static String sha256(File source) {
-        return sha(ShaType.SHA256, source);
+    public static String md4(File source) {
+        return md(MdType.MD4, source);
     }
 
     /**
-     * 连续几个类型的SHA计算
+     * 连续几个类型的MD计算
      *
      * @param source 原文件
-     * @return SHA结果
+     * @return MD结果
      */
-    public static String sha384(File source) {
-        return sha(ShaType.SHA384, source);
-    }
-
-    /**
-     * 连续几个类型的SHA计算
-     *
-     * @param source 原文件
-     * @return SHA结果
-     */
-    public static String sha512(File source) {
-        return sha(ShaType.SHA512, source);
+    public static String md5(File source) {
+        return md(MdType.MD5, source);
     }
 }
 
