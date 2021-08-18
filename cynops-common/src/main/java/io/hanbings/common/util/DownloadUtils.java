@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package io.hanbings.cynops.tool;
+package io.hanbings.common.util;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 @SuppressWarnings("unused ResultOfMethodCallIgnored")
-public class SimpleDownloader {
+public class DownloadUtils {
     /**
      * 从网络Url中下载文件
      *

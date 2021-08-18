@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.hanbings.cynops.security;
+package io.hanbings.common.util;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

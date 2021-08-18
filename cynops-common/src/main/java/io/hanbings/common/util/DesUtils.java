@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.hanbings.cynops.security;
+package io.hanbings.common.util;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;

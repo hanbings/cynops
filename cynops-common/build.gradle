@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group 'io.hanbings.cynops'
+group 'io.hanbings'
 version '1.0-dev'
 
 repositories {
