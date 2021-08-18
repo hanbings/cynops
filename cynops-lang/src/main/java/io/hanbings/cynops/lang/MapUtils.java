@@ -16,5 +16,6 @@
 
 package io.hanbings.cynops.lang;
 
+@SuppressWarnings("unused")
 public class MapUtils {
 }

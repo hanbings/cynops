@@ -16,6 +16,26 @@
 
 package io.hanbings.cynops.lang;
 
+@SuppressWarnings("unused")
 public class StringUtils {
+    /**
+     * 字符串首字母大写 <br>
+     * 传说中有一种ascii移位转换首字母的 <br>
+     * 但似乎需要几层判断 有需要以后再补
+     *
+     * @param source 输入字符串
+     * @return 返回字符串
+     */
+    public static String initialToUpperCase(String source) {
+        return source.substring(0, 1).toUpperCase() + source.substring(1);
+    }
 
+    /**
+     * 字符串首字母小写
+     * @param source 输入字符串
+     * @return 返回字符串
+     */
+    public static String initialToLowerCase(String source){
+        return source.substring(0,1).toLowerCase() + source.substring(1);
+    }
 }
