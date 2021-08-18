@@ -14,7 +14,13 @@
 
 ### 功能：
 
-| 状态 / Status | 项目 / Project | 功能 / Function                              |
-| ------------- | -------------- | -------------------------------------------- |
-| 🍻             | cynops-event   | 简单 Event Bus 实现                          |
-| 🚧             | cynops-common  | 还挺多的功能封装  这个子项目封装自 java 类库 |
+| 状态 / Status | 项目 / Project  | 功能 / Function                               |
+| ------------- | --------------- | --------------------------------------------- |
+| 🍻             | cynops-event    | 简单 Event Bus 实现                           |
+| 🚧             | cynops-security | 安全工具 目前是摘要、对称加密算法的封装       |
+| 🚧             | cynops-io       | IO 工具                                       |
+| 🚧             | cynops-tool     | 送一个下崽器（错乱）                          |
+| 🚧             | cynops-extra    | 邮件工具、二维码工具、一些稀奇古怪的第三方API |
+
+
+
