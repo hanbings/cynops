@@ -16,6 +16,5 @@
 
 package io.hanbings.cynops.lang;
 
-public class StringUtils {
-
+public class DateUtils {
 }
