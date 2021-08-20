@@ -35,17 +35,17 @@ public class DesUtils {
     /**
      * 加密
      *
-     * @param content 加密的字符串
+     * @param source 加密的字符串
      * @param key     key值
      * @return 加密后的内容
      * @throws Exception 异常
      */
-    public static String encrypt(String content, String key) throws Exception {
+    public static String encrypt(String source, String key) throws Exception {
         Cipher cipher = Cipher.getInstance(ALGORITHMS);
         // 加密向量
         IvParameterSpec iv = new IvParameterSpec(SIV);
         cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key.getBytes(), ALGORITHMS), iv);
-        byte[] bytes = cipher.doFinal(content.getBytes(StandardCharsets.UTF_8));
+        byte[] bytes = cipher.doFinal(source.getBytes(StandardCharsets.UTF_8));
         // 采用base64算法进行转码,避免出现中文乱码
         return encoder.encodeToString(bytes);
     }
@@ -53,18 +53,18 @@ public class DesUtils {
     /**
      * 解密
      *
-     * @param encrypt 解密的字符串
+     * @param source 解密的字符串
      * @param key     解密的key值
      * @return 解密后的内容
      * @throws Exception 异常
      */
-    public static String decrypt(String encrypt, String key) throws Exception {
+    public static String decrypt(String source, String key) throws Exception {
         Cipher cipher = Cipher.getInstance(ALGORITHMS);
         // 加密向量
         IvParameterSpec iv = new IvParameterSpec(SIV);
         cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(key.getBytes(), ALGORITHMS), iv);
         // 采用base64算法进行转码,避免出现中文乱码
-        byte[] encryptBytes = decoder.decode(encrypt);
+        byte[] encryptBytes = decoder.decode(source);
         byte[] decryptBytes = cipher.doFinal(encryptBytes);
         return new String(decryptBytes);
     }

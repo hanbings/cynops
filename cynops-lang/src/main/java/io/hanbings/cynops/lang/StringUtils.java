@@ -26,7 +26,7 @@ public class StringUtils {
      * @param source 字符串
      * @return 返回转换后的字符串
      */
-    public static String initialToUpperCase(String source) {
+    public static String capitalize(String source) {
         return source.substring(0, 1).toUpperCase() + source.substring(1);
     }
 
@@ -36,7 +36,8 @@ public class StringUtils {
      * @param source 字符串
      * @return 返回转换后的字符串
      */
-    public static String initialToLowerCase(String source) {
+    @SuppressWarnings("SpellCheckingInspection")
+    public static String uncapitalize(String source) {
         return source.substring(0, 1).toLowerCase() + source.substring(1);
     }
 
@@ -46,18 +47,8 @@ public class StringUtils {
      * @param source 字符串
      * @return 返回是否首字母为大写
      */
-    public static boolean isInitialUpperCase(String source) {
+    public static boolean isCapitalize(String source) {
         return source.toCharArray()[0] >= 65 && source.toCharArray()[0] <= 90;
-    }
-
-    /**
-     * 判断字符串是否为小写
-     *
-     * @param source 字符串
-     * @return 返回是否首字母为小写
-     */
-    public static boolean isInitialLowerCase(String source) {
-        return source.toCharArray()[0] >= 97 && source.toCharArray()[0] <= 122;
     }
 
     /**
