@@ -18,9 +18,33 @@ package io.hanbings.cynops.lang;
 
 @SuppressWarnings("unused")
 public class StringUtils {
+    /**
+     * 检查所有 CharSequences 是否为 null
+     *
+     * @param source 待处理 CharSequence
+     * @return 返回判断结果
+     */
+    public static boolean isAllNull(CharSequence... source) {
+        for(CharSequence sequence : source){
+            if (sequence == null) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
-     * 检查所有 CharSequences 是否为空 ("")、null 或仅空白。
+     * 检查 CharSequences 是否为 null
+     *
+     * @param source 待处理 CharSequence
+     * @return 返回判断结果
+     */
+    public static boolean isNull(CharSequence source) {
+        return source == null;
+    }
+
+    /**
+     * 检查所有 CharSequences 是否为空 ("")、null 或仅空白
      *
      * @param source 待处理 CharSequence
      * @return 返回判断结果
