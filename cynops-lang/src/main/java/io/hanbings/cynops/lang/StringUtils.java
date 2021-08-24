@@ -18,46 +18,217 @@ package io.hanbings.cynops.lang;
 
 @SuppressWarnings("unused")
 public class StringUtils {
+
     /**
-     * 字符串首字母大写 <br>
-     * 传说中有一种ascii移位转换首字母的 <br>
-     * 但似乎需要几层判断 有需要以后再补
+     * 检查所有 CharSequences 是否为空 ("")、null 或仅空白。
      *
-     * @param source 字符串
-     * @return 返回转换后的字符串
+     * @param source 待处理 CharSequence
+     * @return 返回判断结果
      */
-    public static String capitalize(String source) {
-        return source.substring(0, 1).toUpperCase() + source.substring(1);
+    public static boolean isAllBlank(CharSequence... source) {
+        return false;
     }
 
     /**
-     * 字符串首字母小写
+     * 检查所有 CharSequences 是否为空 ("") 或 null
      *
-     * @param source 字符串
-     * @return 返回转换后的字符串
+     * @param source 待处理 CharSequence
+     * @return 返回判断结果
      */
-    @SuppressWarnings("SpellCheckingInspection")
-    public static String uncapitalize(String source) {
-        return source.substring(0, 1).toLowerCase() + source.substring(1);
+    public static boolean isAllEmpty(CharSequence... source) {
+        return false;
     }
 
     /**
-     * 判断首字母是否为大写
+     * 检查 CharSequence 是否仅包含小写字符
      *
-     * @param source 字符串
-     * @return 返回是否首字母为大写
+     * @param source 待处理 CharSequence
+     * @return 返回判断结果
      */
-    public static boolean isCapitalize(String source) {
-        return source.toCharArray()[0] >= 65 && source.toCharArray()[0] <= 90;
+    public static boolean isAllLowerCase(CharSequence source) {
+        return false;
     }
 
     /**
-     * 判断字符串长度是否为0
+     * 检查 CharSequence 是否仅包含大写字符
      *
-     * @param source 字符串
-     * @return "" 是 false " " 或其他形式存在字符 是 ture
+     * @param source 待处理 CharSequence
+     * @return 返回判断结果
      */
-    public static boolean hasLength(String source) {
-        return (source != null && source.length() > 0);
+    public static boolean isAllUpperCase(CharSequence source) {
+        return false;
     }
+
+    /**
+     * 检查 CharSequence 是否仅包含 Unicode 字母
+     *
+     * @param source 待处理 CharSequence
+     * @return 返回判断结果
+     */
+    public static boolean isAlpha(CharSequence source) {
+        return false;
+    }
+
+    /**
+     * 检查 CharSequence 是否仅包含 Unicode 字母或数字
+     *
+     * @param source 待处理 CharSequence
+     * @return 返回判断结果
+     */
+    public static boolean isAlphanumeric(CharSequence source) {
+        return false;
+    }
+
+    /**
+     * 检查 CharSequence 是否仅包含 Unicode 字母、数字或空格 ( ' ')
+     *
+     * @param source 待处理 CharSequence
+     * @return 返回判断结果
+     */
+    public static boolean isAlphanumericSpace(CharSequence source) {
+        return false;
+    }
+
+    /**
+     * 检查 CharSequence 是否仅包含 Unicode 字母和空格 (' ')
+     *
+     * @param source 待处理 CharSequence
+     * @return 返回判断结果
+     */
+    public static boolean isAlphaSpace(CharSequence source) {
+        return false;
+    }
+
+    /**
+     * 检查是否有任何 CharSequences 为空 ("") 或 null 或仅空格
+     *
+     * @param source 待处理 CharSequence
+     * @return 返回判断结果
+     */
+    public static boolean isAnyBlank(CharSequence... source) {
+        return false;
+    }
+
+    /**
+     * 检查是否有任何 CharSequences 为空 ("") 或 null
+     *
+     * @param source 待处理 CharSequence
+     * @return 返回判断结果
+     */
+    public static boolean isAnyEmpty(CharSequence... source) {
+        return false;
+    }
+
+    /**
+     * 检查 CharSequence 是否仅包含 ASCII 可打印字符
+     *
+     * @param source 待处理 CharSequence
+     * @return 返回判断结果
+     */
+
+    public static boolean isAsciiPrintable(CharSequence source) {
+        return false;
+    }
+
+    /**
+     * 检查 CharSequence 是否为空 ("")、null 或仅空白
+     *
+     * @param source 待处理 CharSequence
+     * @return 返回判断结果
+     */
+    public static boolean isBlank(CharSequence source) {
+        return false;
+    }
+
+    /**
+     * 检查 CharSequence 是否为空 ("") 或 null
+     *
+     * @param source 待处理 CharSequence
+     * @return 返回判断结果
+     */
+    public static boolean isEmpty(CharSequence source) {
+        return false;
+    }
+
+    /**
+     * 检查 CharSequence 是否包含大写和小写字符的混合大小写
+     *
+     * @param source 待处理 CharSequence
+     * @return 返回判断结果
+     */
+    public static boolean isMixedCase(CharSequence source) {
+        return false;
+    }
+
+    /**
+     * 检查是否没有一个 CharSequences 为空 ("")、null 或空白
+     *
+     * @param source 待处理 CharSequence
+     * @return 返回判断结果
+     */
+    public static boolean isNoneBlank(CharSequence... source) {
+        return false;
+    }
+
+    /**
+     * 检查是否没有一个 CharSequences 为空 ("") 或 null
+     *
+     * @param source 待处理 CharSequence
+     * @return 返回判断结果
+     */
+    public static boolean isNoneEmpty(CharSequence... source) {
+        return false;
+    }
+
+
+    /**
+     * 检查 CharSequence 是否不为空 ("")、不为空且不为空白
+     *
+     * @param source 待处理 CharSequence
+     * @return 返回判断结果
+     */
+    public static boolean isNotBlank(CharSequence source) {
+        return false;
+    }
+
+    /**
+     * 检查 CharSequence 是否不为空 ("") 且不为 null
+     *
+     * @param source 待处理 CharSequence
+     * @return 返回判断结果
+     */
+    public static boolean isNotEmpty(CharSequence source) {
+        return false;
+    }
+
+    /**
+     * 检查 CharSequence 是否仅包含 Unicode 数字
+     *
+     * @param source 待处理 CharSequence
+     * @return 返回判断结果
+     */
+    public static boolean isNumeric(CharSequence source) {
+        return false;
+    }
+
+    /**
+     * 检查 CharSequence 是否仅包含 Unicode 数字或空格 ( ' ')
+     *
+     * @param source 待处理 CharSequence
+     * @return 返回判断结果
+     */
+    public static boolean isNumericSpace(CharSequence source) {
+        return false;
+    }
+
+    /**
+     * 检查 CharSequence 是否仅包含空格
+     *
+     * @param source 待处理 CharSequence 
+     * @return 返回判断结果
+     */
+    public static boolean isWhitespace(CharSequence source) {
+        return false;
+    }
+
 }
