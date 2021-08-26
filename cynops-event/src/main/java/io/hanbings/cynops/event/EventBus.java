@@ -33,17 +33,13 @@ public class EventBus {
     public void callEvent(Event event) {
         if (handlers.containsKey(event.getClass())) {
             for (RegisteredHandler handler : handlers.get(event.getClass()).getHandlerList()) {
-                if (event instanceof Blockable){
-                    if (((Blockable) event).isBlocked()){
-                        return;
-                    }
+                if (event instanceof Blockable && ((Blockable) event).isBlocked()) {
+                    return;
                 }
-                if (event instanceof Cancellable) {
-                    if (((Cancellable) event).isCancelled()){
-                        if (handler.isIgnoreCancelled()){
-                            continue;
-                        }
-                    }
+                if (event instanceof Cancellable
+                        && ((Cancellable) event).isCancelled()
+                        && handler.isIgnoreCancelled()) {
+                    continue;
                 }
                 try {
                     handler.getMethod().invoke(handler.getListener(), event);
