@@ -2,7 +2,7 @@
 
 
 
-![Github License](https://img.shields.io/github/license/hanbings/cynops?style=for-the-badge) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/hanbings/cynops/main?style=for-the-badge) ![Jenkins](https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fci.hanbings.io%2Fjob%2FCynops%2F&label=build&style=for-the-badge) ![Jenkins](https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fci.hanbings.io%2Fjob%2FCynops%2520Code%2520Check%2F&style=for-the-badge) ![Version](https://img.shields.io/badge/version-java11-orange?style=for-the-badge) ![GitHub Last Commit](https://img.shields.io/github/last-commit/hanbings/cynops?style=for-the-badge) [![Blog](https://img.shields.io/badge/website-cynops-lightgrey.svg?style=for-the-badge)](https://cynops.tech) [![Blog](https://img.shields.io/badge/blog-@hanbings-blue.svg?style=for-the-badge)](https://blog.hanbings.io)
+![Github License](https://img.shields.io/github/license/hanbings/cynops?style=for-the-badge) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/hanbings/cynops/main?style=for-the-badge) ![Jenkins](https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fci.hanbings.io%2Fjob%2FCynops%2F&label=build&style=for-the-badge) ![Codacy grade](https://img.shields.io/codacy/grade/acf95e2e5fb54a748606e8db08b169f7?style=for-the-badge) ![Version](https://img.shields.io/badge/version-java11-orange?style=for-the-badge) ![GitHub Last Commit](https://img.shields.io/github/last-commit/hanbings/cynops?style=for-the-badge) [![Blog](https://img.shields.io/badge/website-cynops-lightgrey.svg?style=for-the-badge)](https://cynops.tech) [![Blog](https://img.shields.io/badge/blog-@hanbings-blue.svg?style=for-the-badge)](https://blog.hanbings.io)
 
 
 
@@ -10,7 +10,7 @@
 
 你好！很高兴遇见你！我的名字叫蝾螈！
 我是为了减少搜索频率，增加键盘寿命而生的！
-你也可以把我视作一个把各种要频繁搜索的内容放到一起而已，并不是什么认真设计的项目呢！呀，对啦~ 我不希望任何复杂的东西出现哦~
+你也可以把我视作一个把各种要频繁搜索的内容放到一起而已，并不是什么认真设计的项目呢！
 
 
 
@@ -20,7 +20,7 @@
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Github Actions](https://github.com/Hanbings/Cynops/actions) | ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/hanbings/cynops/main?style=flat-square) |
 | [CI Server](https://ci.hanbings.io/blue/organizations/jenkins/Cynops/activity) | ![Jenkins](https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fci.hanbings.io%2Fjob%2FCynops%2F&label=build&style=flat-square) |
-| [Code Check](https://ci.hanbings.io/blue/organizations/jenkins/Cynops%20Code%20Check/activity) | ![Jenkins](https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fci.hanbings.io%2Fjob%2FCynops%2520Code%2520Check%2F&style=flat-square) |
+| [Code Check](https://www.codacy.com/)                        | ![Codacy grade](https://img.shields.io/codacy/grade/acf95e2e5fb54a748606e8db08b169f7?style=flat-square) |
 
 
 
