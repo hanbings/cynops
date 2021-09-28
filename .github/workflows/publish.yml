@@ -7,7 +7,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: "contains(github.event.head_commit.message, '#Release')"
+    steps:
+      - uses: actions/checkout@v2
+
+  publish:
+    runs-on: ubuntu-latest
+    if: "contains(github.event.head_commit.message, '#Publish')"
     steps:
       - uses: actions/checkout@v2
 
@@ -24,3 +29,7 @@ jobs:
 
       - name: Build with Gradle (publish)
         run: ./gradlew publish
+        env:
+          REPOSITORY_ROOT_URL: ${{ secrets.REPOSITORY_ROOT_URL }}
+          REPOSITORY_USER: ${{ secrets.REPOSITORY_USER }}
+          REPOSITORY_TOKEN: ${{ secrets.REPOSITORY_TOKEN }}
