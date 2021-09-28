@@ -1,17 +1,56 @@
-plugins {
-    id 'java'
-}
-
-group 'io.hanbings'
-version '1.0-dev'
-
-repositories {
-    mavenCentral()
-}
-
 task collect(type: Copy) {
     destinationDir = file('build/libs')
     subprojects.each { project ->
         from project.file('build/libs')
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'maven-publish'
+
+    repositories {
+        mavenCentral()
+    }
+
+    task sourcesJar(type: Jar) {
+        from sourceSets.main.allSource
+        archiveClassifier.convention('sources')
+        archiveClassifier.set('sources')
+    }
+
+    task javadocJar(type: Jar) {
+        from javadoc
+        archiveClassifier.convention('javadocs')
+        archiveClassifier.set('javadocs')
+    }
+
+    publishing {
+        repositories {
+            maven {
+                url = uri(project.findProperty("repository_root_url") ?: System.getenv("REPOSITORY_ROOT_URL")
+                        + (project.version.toString().endsWith('dev') ? 'snapshots' : 'releases'))
+                credentials {
+                    username = project.findProperty("repository_user") ?: System.getenv("REPOSITORY_USER")
+                    password = project.findProperty("repository_token") ?: System.getenv("REPOSITORY_TOKEN")
+                }
+            }
+        }
+        publications {
+            mavenJava(MavenPublication) {
+                artifact(jar)//TODO 配置库jar包
+                artifact(sourcesJar)//TODO 配置库源码jar包
+                artifact(javadocJar)//TODO 配置库javadoc jar包
+            }
+        }
+    }
+
+    javadoc {
+        options.addBooleanOption('html5', true)
+        options.encoding('utf-8')
     }
 }
