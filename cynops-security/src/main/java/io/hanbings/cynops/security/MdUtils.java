@@ -49,6 +49,7 @@ public class MdUtils {
     /**
      * 简单计算字符串MD值
      *
+     * @param type MD 算法类型
      * @param source 原字符串
      * @return MD5结果
      */
@@ -107,6 +108,7 @@ public class MdUtils {
     /**
      * 从一个文件计算MD值
      *
+     * @param type MD 算法类型
      * @param source 原文件
      * @return 文件计算得出的MD5
      */
