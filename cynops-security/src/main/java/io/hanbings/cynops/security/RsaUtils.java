@@ -19,8 +19,9 @@ package io.hanbings.cynops.security;
 import javax.crypto.Cipher;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyFactory;
-import java.security.PrivateKey;
-import java.security.PublicKey;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 import java.util.Objects;
@@ -34,46 +35,38 @@ public class RsaUtils {
      * 加密
      *
      * @param source 加密的字符串
-     * @param key    key值
+     * @param publicKey  公钥值
      * @return 加密后的内容
      * @throws Exception 异常
      */
-    public static String encrypt(String source, String key) throws Exception {
-        // 处理公钥
-        X509EncodedKeySpec keySpec = new X509EncodedKeySpec(key.getBytes(StandardCharsets.UTF_8));
-        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-        PublicKey publicKey = keyFactory.generatePublic(keySpec);
-
-        // 进行加密
-        Cipher cipher = Cipher.getInstance(ALGORITHMS);
-        cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-        byte[] bytes = source.getBytes();
-        bytes = cipher.doFinal(bytes);
-        Base64.Encoder encoder = Base64.getEncoder();
-        return encoder.encodeToString(bytes);
+    public static String encrypt(String source, String publicKey) throws Exception {
+        //base64编码的公钥
+        byte[] decoded = Base64.getDecoder().decode(publicKey);
+        RSAPublicKey pubKey = (RSAPublicKey) KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(decoded));
+        //RSA加密
+        Cipher cipher = Cipher.getInstance("RSA");
+        cipher.init(Cipher.ENCRYPT_MODE, pubKey);
+        return Base64.getEncoder().encodeToString(cipher.doFinal(source.getBytes(StandardCharsets.UTF_8)));
     }
 
     /**
      * 解密
      *
      * @param source 解密的字符串
-     * @param key    解密的key值
+     * @param privateKey 私钥值
      * @return 解密后的内容
      * @throws Exception 异常
      */
-    public static String decrypt(String source, String key) throws Exception {
-        // 处理私钥
-        X509EncodedKeySpec keySpec = new X509EncodedKeySpec(key.getBytes(StandardCharsets.UTF_8));
-        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-        PrivateKey privateKey = keyFactory.generatePrivate(keySpec);
-
-        // 进行解密
-        Cipher cipher = Cipher.getInstance(ALGORITHMS);
-        cipher.init(Cipher.DECRYPT_MODE, privateKey);
-        Base64.Decoder decoder = Base64.getDecoder();
-        byte[] bytes = decoder.decode(source.getBytes(StandardCharsets.UTF_8));
-        bytes = cipher.doFinal(bytes);
-        return new String(bytes);
+    public static String decrypt(String source, String privateKey) throws Exception {
+        //64位解码加密后的字符串
+        byte[] input = Base64.getDecoder().decode(source);
+        //base64编码的私钥
+        byte[] decoded = Base64.getDecoder().decode(privateKey);
+        RSAPrivateKey priKey = (RSAPrivateKey) KeyFactory.getInstance("RSA").generatePrivate(new PKCS8EncodedKeySpec(decoded));
+        //RSA解密
+        Cipher cipher = Cipher.getInstance("RSA");
+        cipher.init(Cipher.DECRYPT_MODE, priKey);
+        return new String(cipher.doFinal(input));
     }
 
     /**
@@ -86,10 +79,32 @@ public class RsaUtils {
      */
     public static boolean check(String value, String publicKey, String privateKey) {
         try {
-            return Objects.equals(RsaUtils.encrypt(value, publicKey), RsaUtils.decrypt(value, privateKey));
+            String publicValue = encrypt(value,publicKey);
+            String privateValue = decrypt(publicValue,privateKey);
+            return Objects.equals(privateValue, value);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
+    }
+
+    /**
+     * 处理 Base64 格式公钥为 pem 格式的公钥
+     *
+     * @param base64 纯 Base64 公钥
+     * @return 带有 pem 头的公钥
+     */
+    public static String getPemPublicKey(String base64) {
+        return "-----BEGIN PUBLIC KEY-----\n" + base64 + "\n-----END PUBLIC KEY-----";
+    }
+
+    /**
+     * 处理 Base64 格式私钥为 pem 格式的私钥
+     *
+     * @param base64 纯 Base64 私钥
+     * @return 带有 pem 头的私钥
+     */
+    public static String getPemPrivateKey(String base64) {
+        return "-----BEGIN PRIVATE KEY-----\n" + base64 + "\n-----END PRIVATE KEY-----";
     }
 }

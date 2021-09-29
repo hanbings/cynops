@@ -26,6 +26,8 @@ import java.util.Base64;
  * 提供一个 BaseType 选择一些 Base64 变体 <br>
  * 此外 也可以使用参数中不含 BaseType 的封装方法 <br>
  * 此类中有部分方法会导致内存溢出 具体方法注释中会特殊标明
+ * <p>
+ * TODO: 迟点回来重命名一次方法名
  */
 @SuppressWarnings("unused")
 public class Base64Utils {
@@ -403,5 +405,91 @@ public class Base64Utils {
             return Base64.getUrlDecoder();
         }
         return Base64.getDecoder();
+    }
+
+    // 新增几个方法
+
+    /**
+     * 编码 完整参数
+     *
+     * @param type   编码类型
+     * @param source 源
+     * @return 字符串返回 Base64
+     */
+    public static String encode(BaseType type, byte[] source) {
+        Base64.Encoder encoder = checkEncoder(type);
+        return encoder.encodeToString(source);
+    }
+
+    /**
+     * 解码 完整参数
+     *
+     * @param type   编码类型
+     * @param source 源
+     * @return 字符串返回 解码后字符串
+     */
+    public static String decode(BaseType type, byte[] source) {
+        Base64.Decoder decoder = checkDecoder(type);
+        return new String(decoder.decode(source));
+    }
+
+    /**
+     * 编码
+     *
+     * @param source 源
+     * @return 字符串返回 Base64
+     */
+    public static String encode(byte[] source) {
+        return encode(BaseType.BASIC, source);
+    }
+
+    /**
+     * 编码
+     *
+     * @param source 源
+     * @return 字符串返回 Base64
+     */
+    public static String encodeWithUrl(byte[] source) {
+        return encode(BaseType.URL, source);
+    }
+
+    /**
+     * 编码
+     *
+     * @param source 源
+     * @return 字符串返回 Base64
+     */
+    public static String encodeWithMime(byte[] source) {
+        return encode(BaseType.MIME, source);
+    }
+
+    /**
+     * 解码
+     *
+     * @param source 源
+     * @return 字符串返回 解码后字符串
+     */
+    public static String decode(byte[] source) {
+        return decode(BaseType.BASIC, source);
+    }
+
+    /**
+     * 解码
+     *
+     * @param source 源
+     * @return 字符串返回 解码后字符串
+     */
+    public static String decodeWithUrl(byte[] source) {
+        return decode(BaseType.URL, source);
+    }
+
+    /**
+     * 解码
+     *
+     * @param source 源
+     * @return 字符串返回 解码后字符串
+     */
+    public static String decodeWithMime(byte[] source) {
+        return decode(BaseType.MIME, source);
     }
 }

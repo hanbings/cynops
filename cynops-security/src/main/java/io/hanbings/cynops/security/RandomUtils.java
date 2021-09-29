@@ -34,7 +34,7 @@ public class RandomUtils {
         try {
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
             keyPairGenerator.initialize(length);
-            KeyPair keyPair = keyPairGenerator.generateKeyPair();
+            return keyPairGenerator.generateKeyPair();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
@@ -61,12 +61,21 @@ public class RandomUtils {
     }
 
     /**
-     * 生成1024位的 RSA 对
+     * 生成3072位的 RSA 对
      * 即使是加密也推荐这个位数 2021年6月1号以后的 Https (SSL) 都将是3072位的
      *
      * @return 密钥对
      */
     public static KeyPair randomRSA3072Key() {
         return randomRSAKey(3072);
+    }
+
+    /**
+     * 生成4096位的 RSA 对
+     *
+     * @return 密钥对
+     */
+    public static KeyPair randomRSA4096Key() {
+        return randomRSAKey(4096);
     }
 }
