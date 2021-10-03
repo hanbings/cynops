@@ -1,0 +1,12 @@
+dependencies {
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    implementation 'mysql:mysql-connector-java:8.0.26'
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    implementation 'mysql:mysql-connector-java:5.1.49'
+    // https://mvnrepository.com/artifact/redis.clients/jedis
+    implementation 'redis.clients:jedis:3.7.0'
+    // https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
+    implementation 'org.xerial:sqlite-jdbc:3.36.0.3'
+    // https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver
+    implementation 'org.mongodb:mongo-java-driver:3.12.10'
+}
