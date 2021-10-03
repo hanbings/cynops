@@ -1,8 +1,4 @@
-# <p align="center"> 
-
-# Cynops Toolbox 📦 
-
-# </p>
+# 📦 Cynops Toolbox
 
 
 
@@ -55,7 +51,7 @@
 
 ### 📝 文档：
 
-EventBus 解析：[Java实现一个简单的EventBus](https://hanbings.io/2021/08/27/Java%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84EventBus/)
+EventBus 解析：[Java实现一个简单的EventBus](https://blog.hanbings.io/2021/08/27/Java%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84EventBus/)
 
 
 
