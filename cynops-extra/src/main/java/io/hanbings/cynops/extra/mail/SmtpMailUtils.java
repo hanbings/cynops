@@ -23,34 +23,63 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
-import java.util.Date;
 import java.util.Properties;
 
+@SuppressWarnings("unused")
 public class SmtpMailUtils {
-    public static void sendMail(String host, String display, String from, String to
+
+    /**
+     * 使用 SMTP 发送邮件
+     *
+     * @param host     主机
+     * @param port     端口
+     * @param isAuth   是否进行验证
+     * @param isSSL    是否开启 SSL
+     * @param isDebug  是否开启调试 调试模式拥有更详细的日志
+     * @param display  显示的发件人昵称
+     * @param from     发件人邮箱
+     * @param to       收件人邮箱 可填写多个收件人 用 " , " 分隔
+     * @param title    邮件标题
+     * @param content  邮件内容
+     * @param mail     发件邮箱
+     * @param password 发件邮箱密码
+     * @param isHTML   是否对邮件进行 HTML 渲染
+     */
+    public static void sendMail(String host, int port
+            , boolean isAuth, boolean isSSL, boolean isDebug
+            , String display, String from, String to
             , String title, String content
             , String mail, String password
-            , boolean isHTML, boolean isSSL, boolean isDebug, boolean isDate, boolean isAuth) {
-        Properties properties = getSmtpProperties(host, mail, password, isSSL, isAuth);
-        sendMail(properties
-                , display, from, to
-                , title, content
-                , getAuth(properties, mail, password)
-                , isHTML, isDebug, isDate);
+            , boolean isHTML) {
+        Properties properties = getSmtpProperties(host, port, mail, password, isAuth, isSSL);
+        Session session = getSession(properties, isDebug);
+        sendMail(properties, display, from, to, title, content, session, isHTML);
     }
 
-    public static void sendMail(Properties properties, String display, String from, String to
+    /**
+     * 使用 SMTP 发送邮件
+     *
+     * @param properties 配置
+     * @param display    显示的发件人昵称
+     * @param from       发件人邮箱
+     * @param to         收件人邮箱 可填写多个收件人 用 " , " 分隔
+     * @param title      邮件标题
+     * @param content    邮件内容
+     * @param session    邮件 Session
+     * @param isHTML     是否对邮件进行 HTML 渲染
+     */
+    public static void sendMail(Properties properties
+            , String display, String from, String to
             , String title, String content
             , Session session
-            , boolean isHTML, boolean isDebug, boolean isDate) {
-        session.setDebug(isDebug);
+            , boolean isHTML) {
         Message message = new MimeMessage(session);
         try {
-            message.addFrom(InternetAddress.parse(from));
+            message.setFrom(new InternetAddress(from, display, "UTF-8"));
             message.addRecipients(Message.RecipientType.CC, InternetAddress.parse(to));
             message.setSubject(title);
-            if (isDate) message.setSentDate(new Date());
             if (isHTML) {
                 Multipart multipart = new MimeMultipart();
                 MimeBodyPart body = new MimeBodyPart();
@@ -64,38 +93,57 @@ public class SmtpMailUtils {
             message.saveChanges();
             // 发送
             Transport.send(message);
-        } catch (MessagingException e) {
+        } catch (MessagingException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
 
-    public static Session getAuth(Properties properties, String mail, String password) {
-        return Session.getDefaultInstance(properties, new Authenticator() {
+    /**
+     * @param properties 配置
+     * @param isDebug    是否开启调试 调试模式拥有更详细的日志
+     * @return 构造完成的 Session
+     */
+    public static Session getSession(Properties properties, boolean isDebug) {
+        Session session = Session.getDefaultInstance(properties, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(mail, password);
+                return new PasswordAuthentication(properties.getProperty("mail.user")
+                        , properties.getProperty("mail.password"));
             }
         });
+        session.setDebug(isDebug);
+        return session;
     }
 
-    public static Properties getSmtpProperties(String host, String mail, String password, boolean isSSL, boolean isAuth) {
+    /**
+     * @param host     邮件主机
+     * @param port     端口
+     * @param mail     邮箱账号
+     * @param password 邮箱密码
+     * @param isAuth   是否需要验证
+     * @param isSSL    是否使用 SSL
+     * @return 构造完成的 Properties
+     */
+
+    public static Properties getSmtpProperties(String host, int port, String mail, String password, boolean isAuth, boolean isSSL) {
         Properties properties = new Properties();
         // 设置基本信息
         properties.setProperty("mail.host", host);
         properties.setProperty("mail.transport.protocol", "smtp");
+        properties.setProperty("mail.smtp.port", String.valueOf(port));
 
         // 验证
         properties.put("mail.smtp.auth", String.valueOf(isAuth));
-        if (isAuth) properties.setProperty("mail.user", mail);
-        if (isAuth) properties.setProperty("mail.password", password);
+        properties.setProperty("mail.user", mail);
+        properties.setProperty("mail.password", password);
 
         // 设置 SSL
         try {
             MailSSLSocketFactory sslSocketFactory = new MailSSLSocketFactory();
+            sslSocketFactory.setTrustAllHosts(true);
             properties.put("mail.smtp.ssl.enable", String.valueOf(isSSL));
             properties.put("mail.smtp.ssl.socketFactory", sslSocketFactory);
             properties.setProperty("mail.smtp.socketFactory.fallback", "false");
-            if (isSSL) properties.setProperty("mail.smtp.port", "465");
-            if (isSSL) properties.setProperty("mail.smtp.socketFactory.port", "465");
+            properties.setProperty("mail.smtp.socketFactory.port", String.valueOf(port));
         } catch (GeneralSecurityException e) {
             e.printStackTrace();
         }
