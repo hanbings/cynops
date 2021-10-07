@@ -29,6 +29,10 @@ subprojects {
         archiveClassifier.set('javadocs')
     }
 
+    javadoc {
+        options.addBooleanOption('html5', true)
+        options.encoding('utf-8')
+    }
 
     repositories {
         mavenCentral()
@@ -62,10 +66,5 @@ subprojects {
                 artifact(javadocJar)
             }
         }
-    }
-
-    javadoc {
-        options.addBooleanOption('html5', true)
-        options.encoding('utf-8')
     }
 }

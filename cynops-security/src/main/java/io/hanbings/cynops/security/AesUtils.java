@@ -25,7 +25,7 @@ import java.util.Base64;
 @SuppressWarnings("unused")
 public class AesUtils {
     // 参数分别代表 算法名称/加密模式/数据填充方式
-    private static final String ALGORITHMS = "AES";
+    private static final String ALGORITHMS = "AES/ECB/NoPadding";
     // 初始化向量(根据需求调整向量的值, 也可以将向量添加到入参变量中)
     private static final byte[] SIV = new byte[16];
     // BASE编码解码
