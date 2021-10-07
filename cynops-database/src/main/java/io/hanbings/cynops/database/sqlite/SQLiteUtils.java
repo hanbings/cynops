@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.hanbings.cynops.database;
+package io.hanbings.cynops.database.sqlite;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

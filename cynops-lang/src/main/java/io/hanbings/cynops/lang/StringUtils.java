@@ -16,6 +16,12 @@
 
 package io.hanbings.cynops.lang;
 
+/**
+ * 按照 apache common lang 的 Javadocs 来列举需要实现的方法 <br>
+ * 有部分代码直接修改于 apache common lang <br>
+ * 根据 Apache 协议 应该指出被更改的代码的详细内容 这部分工作将会在具体的方法注释中进行 <br>
+ * 因为参照 apache common lang 的方法名 参数和功能 所以示例也采用 apache common lang 以保证方法的实现正确
+ */
 @SuppressWarnings("unused")
 public class StringUtils {
     /**
@@ -25,7 +31,7 @@ public class StringUtils {
      * @return 返回判断结果
      */
     public static boolean isAllNull(CharSequence... source) {
-        for(CharSequence sequence : source){
+        for (CharSequence sequence : source) {
             if (sequence == null) {
                 return true;
             }
@@ -44,7 +50,20 @@ public class StringUtils {
     }
 
     /**
-     * 检查所有 CharSequences 是否为空 ("")、null 或仅空白
+     * 检查所有 CharSequences 是否为空 ("")、null 或仅空白 <br>
+     * apache common lang 使用了他们包下面的 ArrayUtil 所以这一个方法自己实现
+     *
+     * <pre>
+     * StringUtils.isAllBlank(null)             = true
+     * StringUtils.isAllBlank(null, "foo")      = false
+     * StringUtils.isAllBlank(null, null)       = true
+     * StringUtils.isAllBlank("", "bar")        = false
+     * StringUtils.isAllBlank("bob", "")        = false
+     * StringUtils.isAllBlank("  bob  ", null)  = false
+     * StringUtils.isAllBlank(" ", "bar")       = false
+     * StringUtils.isAllBlank("foo", "bar")     = false
+     * StringUtils.isAllBlank(new String[] {})  = true
+     * </pre>
      *
      * @param source 待处理 CharSequence
      * @return 返回判断结果
@@ -248,7 +267,7 @@ public class StringUtils {
     /**
      * 检查 CharSequence 是否仅包含空格
      *
-     * @param source 待处理 CharSequence 
+     * @param source 待处理 CharSequence
      * @return 返回判断结果
      */
     public static boolean isWhitespace(CharSequence source) {

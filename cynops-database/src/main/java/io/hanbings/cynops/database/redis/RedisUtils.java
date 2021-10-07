@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.hanbings.cynops.database;
+package io.hanbings.cynops.database.redis;
 
 import redis.clients.jedis.Jedis;
 

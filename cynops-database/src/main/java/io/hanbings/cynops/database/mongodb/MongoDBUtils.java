@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.hanbings.cynops.database;
+package io.hanbings.cynops.database.mongodb;
 
 import com.mongodb.*;
 import com.mongodb.client.MongoDatabase;
