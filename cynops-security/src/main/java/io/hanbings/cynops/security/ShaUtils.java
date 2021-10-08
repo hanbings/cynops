@@ -121,17 +121,17 @@ public class ShaUtils {
     /**
      * 计算文件SHA
      *
-     * @param source 文件 计算速度可能会受IO性能影响 这里缓存是1M
+     * @param file 文件 计算速度可能会受IO性能影响 这里缓存是1M
      * @param type   SHA类型 SHA-1 SHA-256 SHA-384 SHA-512
      * @return 返回计算的SHA结果
      */
-    public static String sha(ShaType type, File source) {
-        if (source == null || source.length() == 0) {
+    public static String sha(ShaType type, File file) {
+        if (file == null || file.length() == 0) {
             return null;
         }
         try {
             MessageDigest messageDigest = MessageDigest.getInstance(type.toString());
-            FileInputStream fileInputStream = new FileInputStream(source);
+            FileInputStream fileInputStream = new FileInputStream(file);
             byte[] buffer = new byte[1024];
             int len;
             while ((len = fileInputStream.read(buffer)) != -1) {
@@ -153,41 +153,106 @@ public class ShaUtils {
     /**
      * 连续几个类型的SHA计算
      *
-     * @param source 原文件
+     * @param file 原文件
      * @return SHA结果
      */
-    public static String sha1(File source) {
-        return sha(ShaType.SHA1, source);
+    public static String sha1(File file) {
+        return sha(ShaType.SHA1, file);
     }
 
     /**
      * 连续几个类型的SHA计算
      *
-     * @param source 原文件
+     * @param file 原文件
      * @return SHA结果
      */
-    public static String sha256(File source) {
-        return sha(ShaType.SHA256, source);
+    public static String sha256(File file) {
+        return sha(ShaType.SHA256, file);
     }
 
     /**
      * 连续几个类型的SHA计算
      *
-     * @param source 原文件
+     * @param file 原文件
      * @return SHA结果
      */
-    public static String sha384(File source) {
-        return sha(ShaType.SHA384, source);
+    public static String sha384(File file) {
+        return sha(ShaType.SHA384, file);
     }
 
     /**
      * 连续几个类型的SHA计算
      *
-     * @param source 原文件
+     * @param file 原文件
      * @return SHA结果
      */
-    public static String sha512(File source) {
-        return sha(ShaType.SHA512, source);
+    public static String sha512(File file) {
+        return sha(ShaType.SHA512, file);
+    }
+
+    /**
+     * byte 数组SHA
+     *
+     * @param bytes byte 数组
+     * @param type   SHA类型 SHA-1 SHA-256 SHA-384 SHA-512
+     * @return 返回计算的SHA结果
+     */
+    public static String sha(ShaType type, byte[] bytes) {
+        if (bytes == null || bytes.length == 0) {
+            return null;
+        }
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance(type.toString());
+            byte[] byteArray = messageDigest.digest(bytes);
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : byteArray) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 连续几个类型的SHA计算
+     *
+     * @param bytes byte 数组
+     * @return SHA结果
+     */
+    public static String sha1(byte[] bytes) {
+        return sha(ShaType.SHA1, bytes);
+    }
+
+    /**
+     * 连续几个类型的SHA计算
+     *
+     * @param bytes byte 数组
+     * @return SHA结果
+     */
+    public static String sha256(byte[] bytes) {
+        return sha(ShaType.SHA256, bytes);
+    }
+
+    /**
+     * 连续几个类型的SHA计算
+     *
+     * @param bytes byte 数组
+     * @return SHA结果
+     */
+    public static String sha384(byte[] bytes) {
+        return sha(ShaType.SHA384, bytes);
+    }
+
+    /**
+     * 连续几个类型的SHA计算
+     *
+     * @param bytes byte 数组
+     * @return SHA结果
+     */
+    public static String sha512(byte[] bytes) {
+        return sha(ShaType.SHA512, bytes);
     }
 }
 

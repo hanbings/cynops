@@ -32,12 +32,6 @@ public class MdUtils {
                 return "md2";
             }
         },
-        MD4 {
-            @Override
-            public String toString() {
-                return "md4";
-            }
-        },
         MD5 {
             @Override
             public String toString() {
@@ -91,16 +85,6 @@ public class MdUtils {
      * @param source 原字符串
      * @return MD结果
      */
-    public static String md4(String source) {
-        return md(MdType.MD4, source);
-    }
-
-    /**
-     * 连续几个类型的MD计算
-     *
-     * @param source 原字符串
-     * @return MD结果
-     */
     public static String md5(String source) {
         return md(MdType.MD5, source);
     }
@@ -109,16 +93,16 @@ public class MdUtils {
      * 从一个文件计算MD值
      *
      * @param type MD 算法类型
-     * @param source 原文件
+     * @param file 原文件
      * @return 文件计算得出的MD5
      */
-    public static String md(MdType type, File source) {
-        if (source == null || source.length() == 0) {
+    public static String md(MdType type, File file) {
+        if (file == null || file.length() == 0) {
             return null;
         }
         try {
             MessageDigest messageDigest = MessageDigest.getInstance(type.toString());
-            FileInputStream fileInputStream = new FileInputStream(source);
+            FileInputStream fileInputStream = new FileInputStream(file);
             byte[] buffer = new byte[1024];
             int len;
             while ((len = fileInputStream.read(buffer)) != -1) {
@@ -140,31 +124,70 @@ public class MdUtils {
     /**
      * 连续几个类型的MD计算
      *
-     * @param source 原文件
+     * @param file 原文件
      * @return MD结果
      */
-    public static String md2(File source) {
-        return md(MdType.MD2, source);
+    public static String md2(File file) {
+        return md(MdType.MD2, file);
     }
 
     /**
      * 连续几个类型的MD计算
      *
-     * @param source 原文件
+     * @param file 原文件
      * @return MD结果
      */
-    public static String md4(File source) {
-        return md(MdType.MD4, source);
+    public static String md5(File file) {
+        return md(MdType.MD5, file);
+    }
+
+    /**
+     * 从一个 byte 数组计算MD值
+     *
+     * @param type MD 算法类型
+     * @param bytes 数组
+     * @return 文件计算得出的MD5
+     */
+    public static String md(MdType type, byte[] bytes) {
+        if (bytes == null || bytes.length == 0) {
+            return null;
+        }
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance(type.toString());
+            messageDigest.update(bytes);
+            byte[] byteArray = messageDigest.digest();
+            char[] hexDigits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+            char[] charArray = new char[byteArray.length * 2];
+            int index = 0;
+            for (byte temp : byteArray) {
+                charArray[index++] = hexDigits[temp >>> 4 & 0xf];
+                charArray[index++] = hexDigits[temp & 0xf];
+            }
+            return new String(charArray);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
      * 连续几个类型的MD计算
      *
-     * @param source 原文件
+     * @param bytes byte 数组
      * @return MD结果
      */
-    public static String md5(File source) {
-        return md(MdType.MD5, source);
+    public static String md2(byte[] bytes) {
+        return md(MdType.MD2, bytes);
+    }
+
+    /**
+     * 连续几个类型的MD计算
+     *
+     * @param bytes byte 数组
+     * @return MD结果
+     */
+    public static String md5(byte[] bytes) {
+        return md(MdType.MD5, bytes);
     }
 }
 
