@@ -17,56 +17,66 @@
 package io.hanbings.cynops.security;
 
 import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 
-@SuppressWarnings("unused")
-@Deprecated
+@SuppressWarnings("unused SpellCheckingInspection")
 public class DesUtils {
-    // 参数分别代表 算法名称/加密模式/数据填充方式
-    private static final String ALGORITHMS = "DES";
-    // 初始化向量(根据需求调整向量的值, 也可以将向量添加到入参变量中)
-    private static final byte[] SIV = new byte[16];
-    // BASE编码解码
-    private static final Base64.Encoder encoder = Base64.getEncoder();
-    private static final Base64.Decoder decoder = Base64.getDecoder();
-
     /**
-     * 加密
+     * 加密 使用 DES/ECB/PKCS5Padding <br>
+     * 由于密码定长 不做处理 无法加密或解密将返回 null <br>
+     * 密码要求 64位 即 8 个字符 (String)
      *
-     * @param source 加密的字符串
-     * @param key     key值
-     * @return 加密后的内容
-     * @throws Exception 异常
+     * @param source 加密字符串
+     * @param key    密钥
+     * @return 加密后的字符串
      */
-    public static String encrypt(String source, String key) throws Exception {
-        Cipher cipher = Cipher.getInstance(ALGORITHMS);
-        // 加密向量
-        IvParameterSpec iv = new IvParameterSpec(SIV);
-        cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key.getBytes(), ALGORITHMS), iv);
-        byte[] bytes = cipher.doFinal(source.getBytes(StandardCharsets.UTF_8));
-        // 采用base64算法进行转码,避免出现中文乱码
-        return encoder.encodeToString(bytes);
+    public static String encrypt(String source, String key) {
+        try {
+            SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "DES");
+            Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, keySpec);
+            byte[] byteArray = cipher.doFinal(source.getBytes(StandardCharsets.UTF_8));
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : byteArray) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /**
-     * 解密
+     * 解密 使用 DES/ECB/PKCS5Padding <br>
+     * 由于密码定长 不做处理 无法加密或解密将返回 null <br>
+     * 密码要求 64位 即 8 个字符 (String)
      *
-     * @param source 解密的字符串
-     * @param key     解密的key值
-     * @return 解密后的内容
-     * @throws Exception 异常
+     * @param source 解密字符串
+     * @param key    密钥
+     * @return 解密后的字符串
      */
-    public static String decrypt(String source, String key) throws Exception {
-        Cipher cipher = Cipher.getInstance(ALGORITHMS);
-        // 加密向量
-        IvParameterSpec iv = new IvParameterSpec(SIV);
-        cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(key.getBytes(), ALGORITHMS), iv);
-        // 采用base64算法进行转码,避免出现中文乱码
-        byte[] encryptBytes = decoder.decode(source);
-        byte[] decryptBytes = cipher.doFinal(encryptBytes);
-        return new String(decryptBytes);
+    public static String decrypt(String source, String key) {
+        try {
+            SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "DES");
+            Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
+            cipher.init(Cipher.DECRYPT_MODE, keySpec);
+
+            source = source.toLowerCase();
+            final byte[] byteArray = new byte[source.length() / 2];
+            int index = 0;
+            for (int count = 0; count < byteArray.length; count++) {
+                //因为是16进制，最多只会占用4位，转换成字节需要两个16进制的字符，高位在先
+                byte high = (byte) (Character.digit(source.charAt(index), 16) & 0xff);
+                byte low = (byte) (Character.digit(source.charAt(index + 1), 16) & 0xff);
+                byteArray[count] = (byte) (high << 4 | low);
+                index += 2;
+            }
+            byte[] original = cipher.doFinal(byteArray);
+
+            return new String(original, StandardCharsets.UTF_8);
+        } catch (Exception ex) {
+            return null;
+        }
     }
 }
