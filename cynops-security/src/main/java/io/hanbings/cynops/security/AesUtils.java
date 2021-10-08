@@ -23,6 +23,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 @SuppressWarnings("unused")
+@Deprecated
 public class AesUtils {
     // 参数分别代表 算法名称/加密模式/数据填充方式
     private static final String ALGORITHMS = "AES/ECB/NoPadding";
