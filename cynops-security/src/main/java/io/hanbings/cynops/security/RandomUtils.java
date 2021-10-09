@@ -16,9 +16,12 @@
 
 package io.hanbings.cynops.security;
 
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 
 @SuppressWarnings("unused")
 public class RandomUtils {
@@ -30,7 +33,7 @@ public class RandomUtils {
      * @param length 密钥长度
      * @return 生成的密钥对
      */
-    public static KeyPair randomRSAKey(int length) {
+    public static KeyPair randomRsaKeys(int length) {
         try {
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
             keyPairGenerator.initialize(length);
@@ -47,8 +50,8 @@ public class RandomUtils {
      *
      * @return 密钥对
      */
-    public static KeyPair randomRSA1024Key() {
-        return randomRSAKey(1024);
+    public static KeyPair randomRsa1024Keys() {
+        return randomRsaKeys(1024);
     }
 
     /**
@@ -56,8 +59,8 @@ public class RandomUtils {
      *
      * @return 密钥对
      */
-    public static KeyPair randomRSA2048Key() {
-        return randomRSAKey(2048);
+    public static KeyPair randomRsa2048Key() {
+        return randomRsaKeys(2048);
     }
 
     /**
@@ -66,8 +69,8 @@ public class RandomUtils {
      *
      * @return 密钥对
      */
-    public static KeyPair randomRSA3072Key() {
-        return randomRSAKey(3072);
+    public static KeyPair randomRsa3072Keys() {
+        return randomRsaKeys(3072);
     }
 
     /**
@@ -75,7 +78,144 @@ public class RandomUtils {
      *
      * @return 密钥对
      */
-    public static KeyPair randomRSA4096Key() {
-        return randomRSAKey(4096);
+    public static KeyPair randomRsa4096Keys() {
+        return randomRsaKeys(4096);
+    }
+
+    /**
+     * 随机生成一串 AES 密码
+     * 此外 请在生成密钥的场景下尽可能使用返回 byte[] 的方法 因为 byte[] 从内存中擦除的时间比 String 更短 更安全
+     *
+     * @param length 期望的密钥长度
+     * @return 字符串密钥
+     */
+    public static String randomAesKey(int length) {
+        try {
+            KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+            keyGen.init(length);
+            SecretKey secretKey = keyGen.generateKey();
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : secretKey.getEncoded()) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 随机生成一串 AES 密码
+     *
+     * @param length 期望的密钥长度
+     * @return 字符串密钥
+     */
+    public static byte[] randomAesKeyByte(int length) {
+        try {
+            KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+            keyGen.init(length);
+            return keyGen.generateKey().getEncoded();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 生成 128 位的 AES 密钥
+     *
+     * @return 生成的密钥
+     */
+    public static String randomAes128Key() {
+        return randomAesKey(128);
+    }
+
+    /**
+     * 生成 192 位的 AES 密钥
+     *
+     * @return 生成的密钥
+     */
+    public static String randomAes192Key() {
+        return randomAesKey(192);
+    }
+
+    /**
+     * 生成 256 位的 AES 密钥
+     *
+     * @return 生成的密钥
+     */
+    public static String randomAes256Key() {
+        return randomAesKey(256);
+    }
+
+    /**
+     * 生成 128 位的 AES 密钥
+     *
+     * @return 生成的密钥
+     */
+    public static byte[] randomAes128KeyByte() {
+        return randomAesKeyByte(128);
+    }
+
+    /**
+     * 生成 192 位的 AES 密钥
+     *
+     * @return 生成的密钥
+     */
+    public static byte[] randomAes192KeyByte() {
+        return randomAesKeyByte(192);
+    }
+
+    /**
+     * 生成 256 位的 AES 密钥
+     *
+     * @return 生成的密钥
+     */
+    public static byte[] randomAes256KeyByte() {
+        return randomAesKeyByte(256);
+    }
+
+    /**
+     * 随机生成一串 DES 密钥 <br>
+     * 定长 16 字符 <br>
+     * 注意: 这里会生成 16 字符 但是 DesUtils 所接受的参数是 8 字符 仍需要进行裁剪 <br>
+     * 此外 请在生成密钥的场景下尽可能使用返回 byte[] 的方法 因为 byte[] 从内存中擦除的时间比 String 更短 更安全
+     *
+     * @return 字符串密钥
+     */
+    public static String randomDesKey() {
+        try {
+            SecureRandom random = new SecureRandom();
+            KeyGenerator keyGen = KeyGenerator.getInstance("DES");
+            keyGen.init(random);
+            SecretKey secretKey = keyGen.generateKey();
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : secretKey.getEncoded()) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 随机生成一串 DES 密钥 <br>
+     * 定长
+     *
+     * @return 字符串密钥
+     */
+    public static byte[] randomDesKeyByte() {
+        try {
+            SecureRandom random = new SecureRandom();
+            KeyGenerator keyGen = KeyGenerator.getInstance("DES");
+            keyGen.init(random);
+            return keyGen.generateKey().getEncoded();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
