@@ -59,7 +59,7 @@ public class RandomUtils {
      *
      * @return 密钥对
      */
-    public static KeyPair randomRsa2048Key() {
+    public static KeyPair randomRsa2048Keys() {
         return randomRsaKeys(2048);
     }
 
@@ -111,7 +111,7 @@ public class RandomUtils {
      * @param length 期望的密钥长度
      * @return 字符串密钥
      */
-    public static byte[] randomAesKeyByte(int length) {
+    public static byte[] randomAesKeyBytes(int length) {
         try {
             KeyGenerator keyGen = KeyGenerator.getInstance("AES");
             keyGen.init(length);
@@ -154,7 +154,7 @@ public class RandomUtils {
      *
      * @return 生成的密钥
      */
-    public static byte[] randomAes128KeyByte() {
+    public static byte[] randomAes128KeyBytes() {
         return randomAesKeyByte(128);
     }
 
@@ -163,7 +163,7 @@ public class RandomUtils {
      *
      * @return 生成的密钥
      */
-    public static byte[] randomAes192KeyByte() {
+    public static byte[] randomAes192KeyBytes() {
         return randomAesKeyByte(192);
     }
 
@@ -172,7 +172,7 @@ public class RandomUtils {
      *
      * @return 生成的密钥
      */
-    public static byte[] randomAes256KeyByte() {
+    public static byte[] randomAes256KeyBytes() {
         return randomAesKeyByte(256);
     }
 
@@ -207,7 +207,7 @@ public class RandomUtils {
      *
      * @return 字符串密钥
      */
-    public static byte[] randomDesKeyByte() {
+    public static byte[] randomDesKeyBytes() {
         try {
             SecureRandom random = new SecureRandom();
             KeyGenerator keyGen = KeyGenerator.getInstance("DES");
