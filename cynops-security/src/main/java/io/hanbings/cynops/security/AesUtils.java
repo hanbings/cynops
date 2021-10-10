@@ -19,46 +19,135 @@ package io.hanbings.cynops.security;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 @SuppressWarnings("unused SpellCheckingInspection")
-// TODO: 有时间来重命名下变量
 public class AesUtils {
+
     /**
      * 加密 使用 AES/ECB/PKCS5Padding <br>
      * 如果加密解密过程中出错将返回 null
+     * 输入 String 原始数据 String 密钥
      *
-     * @param source 加密字符串
+     * @param source 原始数据
      * @param key    密钥
-     * @return 加密后的字符串
+     * @return 加密后的 String
      */
-    public static String encrypt(String source, String key) {
+    public static String encryptToString(String source, String key) {
+        return encryptToString(source.getBytes(StandardCharsets.UTF_8), key.getBytes(StandardCharsets.UTF_8));
+    }
+
+    /**
+     * 加密 使用 AES/ECB/PKCS5Padding <br>
+     * 如果加密解密过程中出错将返回 null
+     * 输入 String 原始数据 String 密钥
+     *
+     * @param source 原始数据
+     * @param key    密钥
+     * @return 加密后的 String
+     */
+    public static String encryptToString(String source, byte[] key) {
+        return encryptToString(source.getBytes(StandardCharsets.UTF_8), key);
+    }
+
+    /**
+     * 加密 使用 AES/ECB/PKCS5Padding <br>
+     * 如果加密解密过程中出错将返回 null
+     * 输入 byte 数组原始数据 String 密钥
+     *
+     * @param source 原始数据
+     * @param key    密钥
+     * @return 加密后的 String
+     */
+    public static String encryptToString(byte[] source, String key) {
+        return encryptToString(source, key.getBytes(StandardCharsets.UTF_8));
+    }
+
+    /**
+     * 加密 使用 AES/ECB/PKCS5Padding <br>
+     * 如果加密解密过程中出错将返回 null
+     * 输入 byte 数组原始数据 byte 数组密钥
+     *
+     * @param source 原始数据
+     * @param key    密钥
+     * @return 加密后的 String
+     */
+    public static String encryptToString(byte[] source, byte[] key) {
+        byte[] bytes = encrypt(source, key);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (byte temp : Objects.requireNonNull(bytes)) {
+            stringBuilder.append(String.format("%02x", temp));
+        }
+        return stringBuilder.toString();
+    }
+
+    /**
+     * 加密 使用 AES/ECB/PKCS5Padding <br>
+     * 如果加密解密过程中出错将返回 null
+     * 输入 String 原始数据 String 密钥
+     *
+     * @param source 原始数据
+     * @param key    密钥
+     * @return 加密后的 byte 数组
+     */
+    public static byte[] encrypt(String source, String key) {
+        return encrypt(source.getBytes(StandardCharsets.UTF_8), key.getBytes(StandardCharsets.UTF_8));
+    }
+
+    /**
+     * 加密 使用 AES/ECB/PKCS5Padding <br>
+     * 如果加密解密过程中出错将返回 null
+     * 输入 String 原始数据 byte 数组密钥
+     *
+     * @param source 原始数据
+     * @param key    密钥
+     * @return 加密后的 byte 数组
+     */
+    public static byte[] encrypt(String source, byte[] key) {
+        return encrypt(source.getBytes(StandardCharsets.UTF_8), key);
+    }
+
+    /**
+     * 加密 使用 AES/ECB/PKCS5Padding <br>
+     * 如果加密解密过程中出错将返回 null
+     * 输入 byte 数组原始数据 String 密钥
+     *
+     * @param source 原始数据
+     * @param key    密钥
+     * @return 加密后的 byte 数组
+     */
+    public static byte[] encrypt(byte[] source, String key) {
+        return encrypt(source, key.getBytes(StandardCharsets.UTF_8));
+    }
+
+    /**
+     * 加密 使用 AES/ECB/PKCS5Padding <br>
+     * 如果加密解密过程中出错将返回 null
+     * 输入 byte 数组原始数据 byte 数组密钥
+     *
+     * @param source 原始数据
+     * @param key    密钥
+     * @return 加密后的 byte 数组
+     */
+    public static byte[] encrypt(byte[] source, byte[] key) {
         try {
             // 补足密码长度
-            int plus = 16 - key.length();
-            byte[] data = key.getBytes(StandardCharsets.UTF_8);
             byte[] raw = new byte[16];
             byte[] bytes = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f};
             for (int i = 0; i < 16; i++) {
-                if (data.length > i) {
-                    raw[i] = data[i];
+                if (key.length > i) {
+                    raw[i] = key[i];
                 } else {
                     raw[i] = bytes[0];
                 }
             }
 
-            // 加密
             SecretKeySpec keySpec = new SecretKeySpec(raw, "AES");
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, keySpec);
-
-            // 转换为 String
-            byte[] byteArray = cipher.doFinal(source.getBytes(StandardCharsets.UTF_8));
-            StringBuilder stringBuilder = new StringBuilder();
-            for (byte temp : byteArray) {
-                stringBuilder.append(String.format("%02x", temp));
-            }
-            return stringBuilder.toString();
+            return cipher.doFinal(source);
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -66,44 +155,159 @@ public class AesUtils {
     /**
      * 解密 使用 AES/ECB/PKCS5Padding <br>
      * 如果加密解密过程中出错将返回 null
+     * 输入 String 加密数据 String 密钥
      *
      * @param source 解密字符串
      * @param key    密钥
-     * @return 解密后的字符串
+     * @return 解密后的 String
      */
-    public static String decrypt(String source, String key) {
+    public static String decryptToString(String source, String key) {
+        final byte[] bytes = new byte[source.length() / 2];
+        int index = 0;
+        for (int count = 0; count < bytes.length; count++) {
+            //因为是16进制，最多只会占用4位，转换成字节需要两个16进制的字符，高位在先
+            byte high = (byte) (Character.digit(source.charAt(index), 16) & 0xff);
+            byte low = (byte) (Character.digit(source.charAt(index + 1), 16) & 0xff);
+            bytes[count] = (byte) (high << 4 | low);
+            index += 2;
+        }
+        return new String(Objects.requireNonNull(decrypt(bytes, key.getBytes(StandardCharsets.UTF_8))), StandardCharsets.UTF_8);
+    }
+
+    /**
+     * 解密 使用 AES/ECB/PKCS5Padding <br>
+     * 如果加密解密过程中出错将返回 null
+     * 输入 String 加密数据 byte 数组密钥
+     *
+     * @param source 解密字符串
+     * @param key    密钥
+     * @return 解密后的 String
+     */
+    public static String decryptToString(String source, byte[] key) {
+        final byte[] bytes = new byte[source.length() / 2];
+        int index = 0;
+        for (int count = 0; count < bytes.length; count++) {
+            //因为是16进制，最多只会占用4位，转换成字节需要两个16进制的字符，高位在先
+            byte high = (byte) (Character.digit(source.charAt(index), 16) & 0xff);
+            byte low = (byte) (Character.digit(source.charAt(index + 1), 16) & 0xff);
+            bytes[count] = (byte) (high << 4 | low);
+            index += 2;
+        }
+        return new String(Objects.requireNonNull(decrypt(bytes, key)), StandardCharsets.UTF_8);
+    }
+
+    /**
+     * 解密 使用 AES/ECB/PKCS5Padding <br>
+     * 如果加密解密过程中出错将返回 null
+     * 输入 byte 数组加密数据 String 密钥
+     *
+     * @param source 解密字符串
+     * @param key    密钥
+     * @return 解密后的 String
+     */
+    public static String decryptToString(byte[] source, String key) {
+        return new String(Objects.requireNonNull(decrypt(source, key.getBytes(StandardCharsets.UTF_8))), StandardCharsets.UTF_8);
+    }
+
+    /**
+     * 解密 使用 AES/ECB/PKCS5Padding <br>
+     * 如果加密解密过程中出错将返回 null
+     * 输入 byte 数组加密数据 byte 数组密钥
+     *
+     * @param source 解密字符串
+     * @param key    密钥
+     * @return 解密后的 String
+     */
+    public static String decryptToString(byte[] source, byte[] key) {
+        return new String(Objects.requireNonNull(decrypt(source, key)), StandardCharsets.UTF_8);
+    }
+
+    /**
+     * 解密 使用 AES/ECB/PKCS5Padding <br>
+     * 如果加密解密过程中出错将返回 null
+     * 输入 String 加密数据 String 密钥
+     *
+     * @param source 解密字符串
+     * @param key    密钥
+     * @return 解密后的 byte 数组
+     */
+    public static byte[] decrypt(String source, String key) {
+        final byte[] bytes = new byte[source.length() / 2];
+        int index = 0;
+        for (int count = 0; count < bytes.length; count++) {
+            //因为是16进制，最多只会占用4位，转换成字节需要两个16进制的字符，高位在先
+            byte high = (byte) (Character.digit(source.charAt(index), 16) & 0xff);
+            byte low = (byte) (Character.digit(source.charAt(index + 1), 16) & 0xff);
+            bytes[count] = (byte) (high << 4 | low);
+            index += 2;
+        }
+        return decrypt(bytes, key.getBytes(StandardCharsets.UTF_8));
+    }
+
+    /**
+     * 解密 使用 AES/ECB/PKCS5Padding <br>
+     * 如果加密解密过程中出错将返回 null
+     * 输入 String 加密数据 byte 数组密钥
+     *
+     * @param source 解密字符串
+     * @param key    密钥
+     * @return 解密后的 byte 数组
+     */
+    public static byte[] decrypt(String source, byte[] key) {
+        final byte[] bytes = new byte[source.length() / 2];
+        int index = 0;
+        for (int count = 0; count < bytes.length; count++) {
+            //因为是16进制，最多只会占用4位，转换成字节需要两个16进制的字符，高位在先
+            byte high = (byte) (Character.digit(source.charAt(index), 16) & 0xff);
+            byte low = (byte) (Character.digit(source.charAt(index + 1), 16) & 0xff);
+            bytes[count] = (byte) (high << 4 | low);
+            index += 2;
+        }
+        return decrypt(bytes, key);
+    }
+
+    /**
+     * 解密 使用 AES/ECB/PKCS5Padding <br>
+     * 如果加密解密过程中出错将返回 null
+     * 输入 byte 数组加密数据 String 密钥
+     *
+     * @param source 解密字符串
+     * @param key    密钥
+     * @return 解密后的 byte 数组
+     */
+    public static byte[] decrypt(byte[] source, String key) {
+        return decrypt(source, key.getBytes(StandardCharsets.UTF_8));
+    }
+
+    /**
+     * 解密 使用 AES/ECB/PKCS5Padding <br>
+     * 如果加密解密过程中出错将返回 null
+     * 输入 byte 数组加密数据 byte 数组密钥
+     *
+     * @param source 解密字符串
+     * @param key    密钥
+     * @return 解密后的 byte 数组
+     */
+    public static byte[] decrypt(byte[] source, byte[] key) {
         try {
-            // 补足密码长度
-            int plus = 16 - key.length();
-            byte[] data = key.getBytes(StandardCharsets.UTF_8);
             byte[] raw = new byte[16];
             byte[] bytes = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f};
             for (int count = 0; count < 16; count++) {
-                if (data.length > count) {
-                    raw[count] = data[count];
+                if (key.length > count) {
+                    raw[count] = key[count];
                 } else {
                     raw[count] = bytes[0];
                 }
             }
 
-            //解密
             SecretKeySpec keySpec = new SecretKeySpec(raw, "AES");
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             cipher.init(Cipher.DECRYPT_MODE, keySpec);
-            source = source.toLowerCase();
-            final byte[] byteArray = new byte[source.length() / 2];
-            int index = 0;
-            for (int count = 0; count < byteArray.length; count++) {
-                //因为是16进制，最多只会占用4位，转换成字节需要两个16进制的字符，高位在先
-                byte high = (byte) (Character.digit(source.charAt(index), 16) & 0xff);
-                byte low = (byte) (Character.digit(source.charAt(index + 1), 16) & 0xff);
-                byteArray[count] = (byte) (high << 4 | low);
-                index += 2;
-            }
-            byte[] original = cipher.doFinal(byteArray);
-            return new String(original, StandardCharsets.UTF_8);
-        } catch (Exception ex) {
+            return cipher.doFinal(source);
+        } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
 }
+

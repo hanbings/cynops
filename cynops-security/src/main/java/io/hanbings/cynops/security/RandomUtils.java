@@ -155,7 +155,7 @@ public class RandomUtils {
      * @return 生成的密钥
      */
     public static byte[] randomAes128KeyBytes() {
-        return randomAesKeyByte(128);
+        return randomAesKeyBytes(128);
     }
 
     /**
@@ -164,7 +164,7 @@ public class RandomUtils {
      * @return 生成的密钥
      */
     public static byte[] randomAes192KeyBytes() {
-        return randomAesKeyByte(192);
+        return randomAesKeyBytes(192);
     }
 
     /**
@@ -173,7 +173,7 @@ public class RandomUtils {
      * @return 生成的密钥
      */
     public static byte[] randomAes256KeyBytes() {
-        return randomAesKeyByte(256);
+        return randomAesKeyBytes(256);
     }
 
     /**
