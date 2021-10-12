@@ -20,7 +20,7 @@ import java.math.BigInteger;
 import java.util.Arrays;
 
 /**
- * 这个工具类的 Base58 是标准实现而非比特币实现 好吧 加上了 BTC 地址标准的实现 但不提供异形参数返回值方法了<br>
+ * 这个工具类的 Base58 是标准实现而非比特币实现 好吧 加上了 BTC 地址标准的实现了 <br>
  * 文件作为输入源时可能会造成溢出 如果有需要 将对此进行修复 <br>
  * //TODO: 文件过大导致内存溢出问题
  * 有关比特币地址生成详细: https://www.jianshu.com/p/a2ea3b44f6eb
