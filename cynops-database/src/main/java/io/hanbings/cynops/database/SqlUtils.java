@@ -20,7 +20,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @SuppressWarnings("unused")
-public class SQLUtils {
+public class SqlUtils {
     /**
      * 使用工具包自带的规则
      *
@@ -28,7 +28,7 @@ public class SQLUtils {
      * @return 对于有注入风险的语句返回 true
      */
     public static boolean checkInject(String sql) {
-        Pattern pattern = Pattern.compile(SQLUtils.defaultRegex);
+        Pattern pattern = Pattern.compile(SqlUtils.defaultRegex);
         Matcher matcher = pattern.matcher(sql.toLowerCase());
         return matcher.find();
     }

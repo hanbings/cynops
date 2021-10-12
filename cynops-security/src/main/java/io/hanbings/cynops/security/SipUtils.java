@@ -14,21 +14,8 @@
  * limitations under the License.
  */
 
-package io.hanbings.cynops.database.sqlite;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+package io.hanbings.cynops.security;
 
 @SuppressWarnings("unused")
-public class SQLiteUtils {
-    public static Connection getSQLiteConnection(String path) {
-        try {
-            Class.forName("org.sqlite.JDBC");
-            return DriverManager.getConnection("jdbc:sqlite:" + path);
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+public class SipUtils {
 }

@@ -26,6 +26,7 @@ import java.util.Base64;
  * 提供一个 BaseType 选择一些 Base64 变体 <br>
  * 此外 也可以使用参数中不含 BaseType 的封装方法 <br>
  * 此类中有部分方法会导致内存溢出 具体方法注释中会特殊标明
+ * //TODO: 以 byte[] 作为返回值的方法
  */
 @SuppressWarnings("unused")
 public class Base64Utils {

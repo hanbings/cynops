@@ -25,7 +25,7 @@ import java.sql.SQLException;
  * 一个 try catch 抹平 JDBC 对应 Mysql 版本问题
  */
 @SuppressWarnings("unused")
-public class MySQLUtils {
+public class MySqlUtils {
     public static Connection getMysqlConnection(String url, String username, String password) {
         // 先处理 8.x 版本的 Mysql JDBC
         try {
