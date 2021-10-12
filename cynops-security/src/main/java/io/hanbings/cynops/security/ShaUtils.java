@@ -23,6 +23,10 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * 对数据进行 MD 算法的摘要取值 <br>
+ * 因为输出数据较短 故不封装 byte[] 返回值方法
+ */
 @SuppressWarnings("unused")
 public class ShaUtils {
     // SHA-1 SHA-256 SHA-384 SHA-512
@@ -122,7 +126,7 @@ public class ShaUtils {
      * 计算文件SHA
      *
      * @param file 文件 计算速度可能会受IO性能影响 这里缓存是1M
-     * @param type   SHA类型 SHA-1 SHA-256 SHA-384 SHA-512
+     * @param type SHA类型 SHA-1 SHA-256 SHA-384 SHA-512
      * @return 返回计算的SHA结果
      */
     public static String sha(ShaType type, File file) {
@@ -194,7 +198,7 @@ public class ShaUtils {
      * byte 数组SHA
      *
      * @param bytes byte 数组
-     * @param type   SHA类型 SHA-1 SHA-256 SHA-384 SHA-512
+     * @param type  SHA类型 SHA-1 SHA-256 SHA-384 SHA-512
      * @return 返回计算的SHA结果
      */
     public static String sha(ShaType type, byte[] bytes) {

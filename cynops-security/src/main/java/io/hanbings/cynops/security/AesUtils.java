@@ -21,6 +21,9 @@ import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
+/**
+ * AES 加密封装 默认采用 Java 默认的 AES/ECB/PKCS5Padding
+ */
 @SuppressWarnings("unused SpellCheckingInspection")
 public class AesUtils {
 

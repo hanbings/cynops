@@ -22,6 +22,9 @@ import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
+/**
+ * DES 加密封装 默认采用 Java 默认的 DES/CBC/PKCS5Padding
+ */
 @SuppressWarnings("unused SpellCheckingInspection")
 public class DesUtils {
     /**

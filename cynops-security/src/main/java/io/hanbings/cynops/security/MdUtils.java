@@ -22,6 +22,10 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * 对数据进行 MD 算法的摘要取值 <br>
+ * 因为输出数据较短 故不封装 byte[] 返回值方法
+ */
 @SuppressWarnings("unused")
 public class MdUtils {
     // MD2 MD4 MD5
