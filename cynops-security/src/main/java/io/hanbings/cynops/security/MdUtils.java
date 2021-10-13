@@ -16,20 +16,24 @@
 
 package io.hanbings.cynops.security;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
  * 对数据进行 MD 算法的摘要取值 <br>
- * 因为输出数据较短 故不封装 byte[] 返回值方法
+ * 因为输出数据较短 故不封装 byte[] 返回值方法 <br>
+ * 带有 key 参数的方法为 HMAC 的 MD 实现
  */
-@SuppressWarnings("unused")
+@SuppressWarnings("unused SpellCheckingInspection")
 public class MdUtils {
     // MD2 MD4 MD5
-    public enum MdType {
+    private enum MdType {
         MD2 {
             @Override
             public String toString() {
@@ -47,11 +51,11 @@ public class MdUtils {
     /**
      * 简单计算字符串MD值
      *
-     * @param type MD 算法类型
+     * @param type   MD 算法类型
      * @param source 原字符串
      * @return MD5结果
      */
-    public static String md(MdType type, String source) {
+    private static String md(MdType type, String source) {
         if (source == null || source.length() == 0) {
             return null;
         }
@@ -100,7 +104,7 @@ public class MdUtils {
      * @param file 原文件
      * @return 文件计算得出的MD5
      */
-    public static String md(MdType type, File file) {
+    private static String md(MdType type, File file) {
         if (file == null || file.length() == 0) {
             return null;
         }
@@ -148,11 +152,11 @@ public class MdUtils {
     /**
      * 从一个 byte 数组计算MD值
      *
-     * @param type MD 算法类型
+     * @param type  MD 算法类型
      * @param bytes 数组
      * @return 文件计算得出的MD5
      */
-    public static String md(MdType type, byte[] bytes) {
+    private static String md(MdType type, byte[] bytes) {
         if (bytes == null || bytes.length == 0) {
             return null;
         }
@@ -193,5 +197,162 @@ public class MdUtils {
     public static String md5(byte[] bytes) {
         return md(MdType.MD5, bytes);
     }
+
+    /**
+     * HmacMD5 计算
+     *
+     * @param source 数据源
+     * @param key    密钥
+     * @return String 计算结果
+     */
+    public static String md5(String source, String key) {
+        try {
+            Mac mac = Mac.getInstance("HmacMD5");
+            SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "HmacMD5");
+            mac.init(keySpec);
+            byte[] byteArray = mac.doFinal(source.getBytes(StandardCharsets.UTF_8));
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : byteArray) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * HmacMD5 计算
+     *
+     * @param file 数据源
+     * @param key  密钥
+     * @return String 计算结果
+     */
+    public static String md5(File file, String key) {
+        try {
+            Mac mac = Mac.getInstance("HmacMD5");
+            SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "HmacMD5");
+            mac.init(keySpec);
+            FileInputStream fileInputStream = new FileInputStream(file);
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = fileInputStream.read(buffer)) != -1) {
+                mac.update(buffer, 0, len);
+            }
+            fileInputStream.close();
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : mac.doFinal()) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * HmacMD5 计算
+     *
+     * @param bytes 数据源
+     * @param key   密钥
+     * @return String 计算结果
+     */
+    public static String md5(byte[] bytes, String key) {
+        try {
+            Mac mac = Mac.getInstance("HmacMD5");
+            SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "HmacMD5");
+            mac.init(keySpec);
+            byte[] byteArray = mac.doFinal(bytes);
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : byteArray) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * HmacMD5 计算
+     *
+     * @param source 数据源
+     * @param key    密钥
+     * @return String 计算结果
+     */
+    public static String md5(String source, byte[] key) {
+        try {
+            Mac mac = Mac.getInstance("HmacMD5");
+            SecretKeySpec keySpec = new SecretKeySpec(key, "HmacMD5");
+            mac.init(keySpec);
+            byte[] byteArray = mac.doFinal(source.getBytes(StandardCharsets.UTF_8));
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : byteArray) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * HmacMD5 计算
+     *
+     * @param file 数据源
+     * @param key  密钥
+     * @return String 计算结果
+     */
+    public static String md5(File file, byte[] key) {
+        try {
+            Mac mac = Mac.getInstance("HmacMD5");
+            SecretKeySpec keySpec = new SecretKeySpec(key, "HmacMD5");
+            mac.init(keySpec);
+            FileInputStream fileInputStream = new FileInputStream(file);
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = fileInputStream.read(buffer)) != -1) {
+                mac.update(buffer, 0, len);
+            }
+            fileInputStream.close();
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : mac.doFinal()) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * HmacMD5 计算
+     *
+     * @param bytes 数据源
+     * @param key   密钥
+     * @return String 计算结果
+     */
+    public static String md5(byte[] bytes, byte[] key) {
+        try {
+            Mac mac = Mac.getInstance("HmacMD5");
+            SecretKeySpec keySpec = new SecretKeySpec(key, "HmacMD5");
+            mac.init(keySpec);
+            byte[] byteArray = mac.doFinal(bytes);
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : byteArray) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
 }
 
