@@ -16,6 +16,8 @@
 
 package io.hanbings.cynops.security;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -24,13 +26,15 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * 对数据进行 MD 算法的摘要取值 <br>
- * 因为输出数据较短 故不封装 byte[] 返回值方法
+ * SHA 算法 散列 / 哈希 <br>
+ * 对类库进行封装 支持 SHA-1 SHA-256 SHA-384 SHA-512 <br>
+ * 因为输出数据较短 故不封装 byte[] 返回值方法 <br>
+ * 带有 key 参数的方法为 HMAC 的 SHA 实现
  */
-@SuppressWarnings("unused")
+@SuppressWarnings("unused SpellCheckingInspection")
 public class ShaUtils {
     // SHA-1 SHA-256 SHA-384 SHA-512
-    public enum ShaType {
+    private enum ShaType {
         SHA1 {
             @Override
             public String toString() {
@@ -64,7 +68,7 @@ public class ShaUtils {
      * @param type   SHA类型 SHA-1 SHA-256 SHA-384 SHA-512
      * @return 返回计算的SHA结果
      */
-    public static String sha(ShaType type, String source) {
+    private static String sha(ShaType type, String source) {
         if (source == null || source.length() == 0) {
             return null;
         }
@@ -129,7 +133,7 @@ public class ShaUtils {
      * @param type SHA类型 SHA-1 SHA-256 SHA-384 SHA-512
      * @return 返回计算的SHA结果
      */
-    public static String sha(ShaType type, File file) {
+    private static String sha(ShaType type, File file) {
         if (file == null || file.length() == 0) {
             return null;
         }
@@ -201,7 +205,7 @@ public class ShaUtils {
      * @param type  SHA类型 SHA-1 SHA-256 SHA-384 SHA-512
      * @return 返回计算的SHA结果
      */
-    public static String sha(ShaType type, byte[] bytes) {
+    private static String sha(ShaType type, byte[] bytes) {
         if (bytes == null || bytes.length == 0) {
             return null;
         }
@@ -257,6 +261,635 @@ public class ShaUtils {
      */
     public static String sha512(byte[] bytes) {
         return sha(ShaType.SHA512, bytes);
+    }
+
+    // 带有密码的方式
+
+    /**
+     * HmacSHA1 计算
+     *
+     * @param source 数据源
+     * @param key    密钥
+     * @return String 计算结果
+     */
+    public static String sha1(String source, String key) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA1");
+            SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "HmacSHA1");
+            mac.init(keySpec);
+            byte[] byteArray = mac.doFinal(source.getBytes(StandardCharsets.UTF_8));
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : byteArray) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * HmacSHA1 计算
+     *
+     * @param file 数据源
+     * @param key  密钥
+     * @return String 计算结果
+     */
+    public static String sha1(File file, String key) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA1");
+            SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "HmacSHA1");
+            mac.init(keySpec);
+            FileInputStream fileInputStream = new FileInputStream(file);
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = fileInputStream.read(buffer)) != -1) {
+                mac.update(buffer, 0, len);
+            }
+            fileInputStream.close();
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : mac.doFinal()) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * HmacSHA1 计算
+     *
+     * @param bytes 数据源
+     * @param key   密钥
+     * @return String 计算结果
+     */
+    public static String sha1(byte[] bytes, String key) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA1");
+            SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "HmacSHA1");
+            mac.init(keySpec);
+            byte[] byteArray = mac.doFinal(bytes);
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : byteArray) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * HmacSHA1 计算
+     *
+     * @param source 数据源
+     * @param key    密钥
+     * @return String 计算结果
+     */
+    public static String sha1(String source, byte[] key) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA1");
+            SecretKeySpec keySpec = new SecretKeySpec(key, "HmacSHA1");
+            mac.init(keySpec);
+            byte[] byteArray = mac.doFinal(source.getBytes(StandardCharsets.UTF_8));
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : byteArray) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * HmacSHA1 计算
+     *
+     * @param file 数据源
+     * @param key  密钥
+     * @return String 计算结果
+     */
+    public static String sha1(File file, byte[] key) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA1");
+            SecretKeySpec keySpec = new SecretKeySpec(key, "HmacSHA1");
+            mac.init(keySpec);
+            FileInputStream fileInputStream = new FileInputStream(file);
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = fileInputStream.read(buffer)) != -1) {
+                mac.update(buffer, 0, len);
+            }
+            fileInputStream.close();
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : mac.doFinal()) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * HmacSHA1 计算
+     *
+     * @param bytes 数据源
+     * @param key   密钥
+     * @return String 计算结果
+     */
+    public static String sha1(byte[] bytes, byte[] key) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA1");
+            SecretKeySpec keySpec = new SecretKeySpec(key, "HmacSHA1");
+            mac.init(keySpec);
+            byte[] byteArray = mac.doFinal(bytes);
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : byteArray) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    /**
+     * HmacSHA256 计算
+     *
+     * @param source 数据源
+     * @param key    密钥
+     * @return String 计算结果
+     */
+    public static String sha256(String source, String key) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA256");
+            SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
+            mac.init(keySpec);
+            byte[] byteArray = mac.doFinal(source.getBytes(StandardCharsets.UTF_8));
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : byteArray) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * HmacSHA256 计算
+     *
+     * @param file 数据源
+     * @param key  密钥
+     * @return String 计算结果
+     */
+    public static String sha256(File file, String key) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA256");
+            SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
+            mac.init(keySpec);
+            FileInputStream fileInputStream = new FileInputStream(file);
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = fileInputStream.read(buffer)) != -1) {
+                mac.update(buffer, 0, len);
+            }
+            fileInputStream.close();
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : mac.doFinal()) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * HmacSHA256 计算
+     *
+     * @param bytes 数据源
+     * @param key   密钥
+     * @return String 计算结果
+     */
+    public static String sha256(byte[] bytes, String key) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA256");
+            SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
+            mac.init(keySpec);
+            byte[] byteArray = mac.doFinal(bytes);
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : byteArray) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * HmacSHA256 计算
+     *
+     * @param source 数据源
+     * @param key    密钥
+     * @return String 计算结果
+     */
+    public static String sha256(String source, byte[] key) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA256");
+            SecretKeySpec keySpec = new SecretKeySpec(key, "HmacSHA256");
+            mac.init(keySpec);
+            byte[] byteArray = mac.doFinal(source.getBytes(StandardCharsets.UTF_8));
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : byteArray) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * HmacSHA256 计算
+     *
+     * @param file 数据源
+     * @param key  密钥
+     * @return String 计算结果
+     */
+    public static String sha256(File file, byte[] key) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA256");
+            SecretKeySpec keySpec = new SecretKeySpec(key, "HmacSHA256");
+            mac.init(keySpec);
+            FileInputStream fileInputStream = new FileInputStream(file);
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = fileInputStream.read(buffer)) != -1) {
+                mac.update(buffer, 0, len);
+            }
+            fileInputStream.close();
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : mac.doFinal()) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * HmacSHA256 计算
+     *
+     * @param bytes 数据源
+     * @param key   密钥
+     * @return String 计算结果
+     */
+    public static String sha256(byte[] bytes, byte[] key) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA256");
+            SecretKeySpec keySpec = new SecretKeySpec(key, "HmacSHA256");
+            mac.init(keySpec);
+            byte[] byteArray = mac.doFinal(bytes);
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : byteArray) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    /**
+     * HmacSHA384 计算
+     *
+     * @param source 数据源
+     * @param key    密钥
+     * @return String 计算结果
+     */
+    public static String sha384(String source, String key) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA384");
+            SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "HmacSHA384");
+            mac.init(keySpec);
+            byte[] byteArray = mac.doFinal(source.getBytes(StandardCharsets.UTF_8));
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : byteArray) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * HmacSHA384 计算
+     *
+     * @param file 数据源
+     * @param key  密钥
+     * @return String 计算结果
+     */
+    public static String sha384(File file, String key) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA384");
+            SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "HmacSHA384");
+            mac.init(keySpec);
+            FileInputStream fileInputStream = new FileInputStream(file);
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = fileInputStream.read(buffer)) != -1) {
+                mac.update(buffer, 0, len);
+            }
+            fileInputStream.close();
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : mac.doFinal()) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * HmacSHA384 计算
+     *
+     * @param bytes 数据源
+     * @param key   密钥
+     * @return String 计算结果
+     */
+    public static String sha384(byte[] bytes, String key) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA384");
+            SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "HmacSHA384");
+            mac.init(keySpec);
+            byte[] byteArray = mac.doFinal(bytes);
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : byteArray) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * HmacSHA384 计算
+     *
+     * @param source 数据源
+     * @param key    密钥
+     * @return String 计算结果
+     */
+    public static String sha384(String source, byte[] key) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA384");
+            SecretKeySpec keySpec = new SecretKeySpec(key, "HmacSHA384");
+            mac.init(keySpec);
+            byte[] byteArray = mac.doFinal(source.getBytes(StandardCharsets.UTF_8));
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : byteArray) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * HmacSHA384 计算
+     *
+     * @param file 数据源
+     * @param key  密钥
+     * @return String 计算结果
+     */
+    public static String sha384(File file, byte[] key) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA384");
+            SecretKeySpec keySpec = new SecretKeySpec(key, "HmacSHA384");
+            mac.init(keySpec);
+            FileInputStream fileInputStream = new FileInputStream(file);
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = fileInputStream.read(buffer)) != -1) {
+                mac.update(buffer, 0, len);
+            }
+            fileInputStream.close();
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : mac.doFinal()) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * HmacSHA384 计算
+     *
+     * @param bytes 数据源
+     * @param key   密钥
+     * @return String 计算结果
+     */
+    public static String sha384(byte[] bytes, byte[] key) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA384");
+            SecretKeySpec keySpec = new SecretKeySpec(key, "HmacSHA384");
+            mac.init(keySpec);
+            byte[] byteArray = mac.doFinal(bytes);
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : byteArray) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    /**
+     * HmacSHA512 计算
+     *
+     * @param source 数据源
+     * @param key    密钥
+     * @return String 计算结果
+     */
+    public static String sha512(String source, String key) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA512");
+            SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "HmacSHA512");
+            mac.init(keySpec);
+            byte[] byteArray = mac.doFinal(source.getBytes(StandardCharsets.UTF_8));
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : byteArray) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * HmacSHA512 计算
+     *
+     * @param file 数据源
+     * @param key  密钥
+     * @return String 计算结果
+     */
+    public static String sha512(File file, String key) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA512");
+            SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "HmacSHA512");
+            mac.init(keySpec);
+            FileInputStream fileInputStream = new FileInputStream(file);
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = fileInputStream.read(buffer)) != -1) {
+                mac.update(buffer, 0, len);
+            }
+            fileInputStream.close();
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : mac.doFinal()) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * HmacSHA512 计算
+     *
+     * @param bytes 数据源
+     * @param key   密钥
+     * @return String 计算结果
+     */
+    public static String sha512(byte[] bytes, String key) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA512");
+            SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "HmacSHA512");
+            mac.init(keySpec);
+            byte[] byteArray = mac.doFinal(bytes);
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : byteArray) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * HmacSHA512 计算
+     *
+     * @param source 数据源
+     * @param key    密钥
+     * @return String 计算结果
+     */
+    public static String sha512(String source, byte[] key) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA512");
+            SecretKeySpec keySpec = new SecretKeySpec(key, "HmacSHA512");
+            mac.init(keySpec);
+            byte[] byteArray = mac.doFinal(source.getBytes(StandardCharsets.UTF_8));
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : byteArray) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * HmacSHA512 计算
+     *
+     * @param file 数据源
+     * @param key  密钥
+     * @return String 计算结果
+     */
+    public static String sha512(File file, byte[] key) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA512");
+            SecretKeySpec keySpec = new SecretKeySpec(key, "HmacSHA512");
+            mac.init(keySpec);
+            FileInputStream fileInputStream = new FileInputStream(file);
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = fileInputStream.read(buffer)) != -1) {
+                mac.update(buffer, 0, len);
+            }
+            fileInputStream.close();
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : mac.doFinal()) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * HmacSHA512 计算
+     *
+     * @param bytes 数据源
+     * @param key   密钥
+     * @return String 计算结果
+     */
+    public static String sha512(byte[] bytes, byte[] key) {
+        try {
+            Mac mac = Mac.getInstance("HmacSHA512");
+            SecretKeySpec keySpec = new SecretKeySpec(key, "HmacSHA512");
+            mac.init(keySpec);
+            byte[] byteArray = mac.doFinal(bytes);
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte temp : byteArray) {
+                stringBuilder.append(String.format("%02x", temp));
+            }
+            return stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
 
