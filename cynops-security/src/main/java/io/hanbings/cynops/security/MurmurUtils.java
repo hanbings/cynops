@@ -26,10 +26,12 @@ import java.nio.file.Paths;
 
 /**
  * murmur hash 包含 1 2_32 2_64 3_32 3_128 <br>
- * 种子使用 0xa0e0ef06L 即 cynops 的 crc32 <br>
- * 0xa0e0ef06 即 2699095814 (u int)
+ * 种子默认使用 0xa0e0ef06L 即 cynops 的 crc32 <br>
+ * 0xa0e0ef06 即 2699095814 (u int) <br>
+ * 种子与 Hmac 的 hash 算法的 key 类似 其中一个用途是抵御哈希洪水攻击 <br>
+ * 具体信息可参考 https://www.zhihu.com/question/286529973
  */
-@SuppressWarnings("unused")
+@SuppressWarnings("unused SpellCheckingInspection")
 public class MurmurUtils {
     /**
      * Murmur1
@@ -216,6 +218,210 @@ public class MurmurUtils {
      */
     public static String murmur3(byte[] bytes) {
         long[] longs = MurmurImplement.murmur3With128(bytes, bytes.length, 0xa0e0ef06L);
+        return Long.toHexString(longs[0]) + Long.toHexString(longs[1]);
+    }
+
+
+    /**
+     * Murmur1
+     *
+     * @param source String 数据源
+     * @param seed   种子或者说密钥
+     * @return 计算结果 String Hex
+     */
+    public static String murmur1(String source, long seed) {
+        return Long.toHexString(MurmurImplement.murmur1(source.getBytes(StandardCharsets.UTF_8)
+                , source.getBytes(StandardCharsets.UTF_8).length, seed));
+    }
+
+    /**
+     * Murmur1
+     *
+     * @param file file 数据源
+     * @param seed 种子或者说密钥
+     * @return 计算结果 String Hex
+     */
+    public static String murmur1(File file, long seed) {
+        try {
+            byte[] bytes = Files.readAllBytes(Paths.get(file.toURI()));
+            return Long.toHexString(MurmurImplement.murmur1(bytes, bytes.length, seed));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Murmur1
+     *
+     * @param bytes byte[] 数据源
+     * @param seed  种子或者说密钥
+     * @return 计算结果 String Hex
+     */
+    public static String murmur1(byte[] bytes, long seed) {
+        return Long.toHexString(MurmurImplement.murmur1(bytes, bytes.length, seed));
+    }
+
+    /**
+     * Murmur2 32位
+     *
+     * @param source String 数据源
+     * @param seed   种子或者说密钥
+     * @return 计算结果 String Hex
+     */
+    public static String murmur2With32(String source, long seed) {
+        return Long.toHexString(MurmurImplement.murmur2With32(source.getBytes(StandardCharsets.UTF_8)
+                , source.getBytes(StandardCharsets.UTF_8).length, seed));
+    }
+
+    /**
+     * Murmur2 32位
+     *
+     * @param file file 数据源
+     * @param seed 种子或者说密钥
+     * @return 计算结果 String Hex
+     */
+    public static String murmur2With32(File file, long seed) {
+        try {
+            byte[] bytes = Files.readAllBytes(Paths.get(file.toURI()));
+            return Long.toHexString(MurmurImplement.murmur2With32(bytes, bytes.length, seed));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Murmur2 32位
+     *
+     * @param bytes byte[] 数据源
+     * @param seed  种子或者说密钥
+     * @return 计算结果 String Hex
+     */
+    public static String murmur2With32(byte[] bytes, long seed) {
+        return Long.toHexString(MurmurImplement.murmur2With32(bytes, bytes.length, seed));
+    }
+
+    /**
+     * Murmur2 64位
+     *
+     * @param source String 数据源
+     * @param seed   种子或者说密钥
+     * @return 计算结果 String Hex
+     */
+    public static String murmur2(String source, long seed) {
+        return Long.toHexString(MurmurImplement.murmur2With64(source.getBytes(StandardCharsets.UTF_8)
+                , source.getBytes(StandardCharsets.UTF_8).length, seed));
+    }
+
+    /**
+     * Murmur2 64位
+     *
+     * @param file file 数据源
+     * @param seed 种子或者说密钥
+     * @return 计算结果 String Hex
+     */
+    public static String murmur2(File file, long seed) {
+        try {
+            byte[] bytes = Files.readAllBytes(Paths.get(file.toURI()));
+            return Long.toHexString(MurmurImplement.murmur2With64(bytes, bytes.length, seed));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Murmur2 64位
+     *
+     * @param bytes byte[] 数据源
+     * @param seed  种子或者说密钥
+     * @return 计算结果 String Hex
+     */
+    public static String murmur2(byte[] bytes, long seed) {
+        return Long.toHexString(MurmurImplement.murmur2With64(bytes, bytes.length, seed));
+    }
+
+    /**
+     * Murmur3 32位
+     *
+     * @param source String 数据源
+     * @param seed   种子或者说密钥
+     * @return 计算结果 String Hex
+     */
+    public static String murmur3With32(String source, long seed) {
+        return Long.toHexString(MurmurImplement.murmur3With32(source.getBytes(StandardCharsets.UTF_8)
+                , source.getBytes(StandardCharsets.UTF_8).length, seed));
+    }
+
+    /**
+     * Murmur3 32位
+     *
+     * @param file file 数据源
+     * @param seed 种子或者说密钥
+     * @return 计算结果 String Hex
+     */
+    public static String murmur3With32(File file, long seed) {
+        try {
+            byte[] bytes = Files.readAllBytes(Paths.get(file.toURI()));
+            return Long.toHexString(MurmurImplement.murmur3With32(bytes, bytes.length, seed));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Murmur3 32位
+     *
+     * @param bytes byte[] 数据源
+     * @param seed  种子或者说密钥
+     * @return 计算结果 String Hex
+     */
+    public static String murmur3With32(byte[] bytes, long seed) {
+        return Long.toHexString(MurmurImplement.murmur3With32(bytes, bytes.length, seed));
+    }
+
+    /**
+     * Murmur3 128位
+     *
+     * @param source String 数据源
+     * @param seed   种子或者说密钥
+     * @return 计算结果 String Hex
+     */
+    public static String murmur3(String source, long seed) {
+        long[] longs = MurmurImplement.murmur3With128(source.getBytes(StandardCharsets.UTF_8)
+                , source.getBytes(StandardCharsets.UTF_8).length, seed);
+        return Long.toHexString(longs[0]) + Long.toHexString(longs[1]);
+    }
+
+    /**
+     * Murmur3 128位
+     *
+     * @param file file 数据源
+     * @param seed 种子或者说密钥
+     * @return 计算结果 String Hex
+     */
+    public static String murmur3(File file, long seed) {
+        try {
+            byte[] bytes = Files.readAllBytes(Paths.get(file.toURI()));
+            long[] longs = MurmurImplement.murmur3With128(bytes, bytes.length, seed);
+            return Long.toHexString(longs[0]) + Long.toHexString(longs[1]);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Murmur3 128位
+     *
+     * @param bytes byte[] 数据源
+     * @param seed  种子或者说密钥
+     * @return 计算结果 String Hex
+     */
+    public static String murmur3(byte[] bytes, long seed) {
+        long[] longs = MurmurImplement.murmur3With128(bytes, bytes.length, seed);
         return Long.toHexString(longs[0]) + Long.toHexString(longs[1]);
     }
 }
