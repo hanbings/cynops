@@ -33,7 +33,7 @@ public class SipImplement {
         long rbx = 0x646f72616e646f6dL ^ secondKey;
         long rcx = 0x6c7967656e657261L ^ firstKey;
         long rdx = 0x7465646279746573L ^ secondKey;
-        long temp = 0;
+        long temp;
         int last = data.length / 8 * 8;
         int counts = 0;
 

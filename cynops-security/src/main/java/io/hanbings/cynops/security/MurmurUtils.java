@@ -25,8 +25,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 /**
- * murmur hash 包含 1 2_32 2_64 3_32 3_128 <br>
- * 种子默认使用 0xa0e0ef06L 即 cynops 的 crc32 <br>
+ * Murmur Hash 包含 1 2_32 2_64 3_32 3_128 <br>
+ * 初始化密钥默认使用 0xa0e0ef06L 即 cynops 的 crc32 <br>
  * 0xa0e0ef06 即 2699095814 (u int) <br>
  * 种子与 Hmac 的 hash 算法的 key 类似 其中一个用途是抵御哈希洪水攻击 <br>
  * 具体信息可参考 https://www.zhihu.com/question/286529973
