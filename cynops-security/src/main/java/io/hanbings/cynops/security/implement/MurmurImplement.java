@@ -46,13 +46,13 @@ public class MurmurImplement {
      *
      * @param data   需要散列的数据
      * @param length 需要散列的数据长度
-     * @param seed   用于计算哈希的种子
+     * @param key   用于计算哈希的种子
      * @return 计算出的哈希值
      */
-    public static long murmur1(final byte[] data, int length, long seed) {
+    public static long murmur1(final byte[] data, int length, long key) {
         final long m = 0xc6a4a793L;
         final int r = 16;
-        long h = seed ^ (length * m);
+        long h = key ^ (length * m);
         int length4 = length >> 2;
         for (int i = 0; i < length4; i++) {
             final int i4 = i << 2;
@@ -95,13 +95,13 @@ public class MurmurImplement {
      *
      * @param data   需要散列的数据
      * @param length 需要散列的数据长度
-     * @param seed   用于计算哈希的种子
+     * @param key   用于计算哈希的种子
      * @return 计算出的哈希值
      */
-    public static long murmur2With32(final byte[] data, int length, long seed) {
+    public static long murmur2With32(final byte[] data, int length, long key) {
         final long m = 0x5bd1e995L;
         final int r = 24;
-        long hash = ((seed ^ length) & UINT_MASK);
+        long hash = ((key ^ length) & UINT_MASK);
         int length4 = length >>> 2;
 
         for (int i = 0; i < length4; i++) {
@@ -144,13 +144,13 @@ public class MurmurImplement {
      *
      * @param data   需要散列的数据
      * @param length 需要散列的数据长度
-     * @param seed   用于计算哈希的种子
+     * @param key   用于计算哈希的种子
      * @return 计算出的哈希值
      */
-    public static long murmur2With64(final byte[] data, int length, long seed) {
+    public static long murmur2With64(final byte[] data, int length, long key) {
         final long m = 0xc6a4a7935bd1e995L;
         final int r = 47;
-        long h = (seed & UINT_MASK) ^ (length * m);
+        long h = (key & UINT_MASK) ^ (length * m);
         int length8 = length >> 3;
 
         for (int i = 0; i < length8; i++) {
@@ -202,12 +202,12 @@ public class MurmurImplement {
      *
      * @param data   需要散列的数据
      * @param length 需要散列的数据长度
-     * @param seed   用于计算哈希的种子
+     * @param key   用于计算哈希的种子
      * @return 计算出的哈希值
      */
-    public static long murmur3With32(final byte[] data, int length, long seed) {
+    public static long murmur3With32(final byte[] data, int length, long key) {
         final int nblocks = length >> 2;
-        long hash = seed;
+        long hash = key;
 
         for (int i = 0; i < nblocks; i++) {
             final int i4 = i << 2;
@@ -254,12 +254,12 @@ public class MurmurImplement {
      *
      * @param data   需要散列的数据
      * @param length 需要散列的数据长度
-     * @param seed   用于计算哈希的种子
+     * @param key   用于计算哈希的种子
      * @return 计算出的哈希值
      */
-    public static long[] murmur3With128(final byte[] data, final int length, final long seed) {
-        long h1 = seed;
-        long h2 = seed;
+    public static long[] murmur3With128(final byte[] data, final int length, final long key) {
+        long h1 = key;
+        long h2 = key;
 
         ByteBuffer buffer = ByteBuffer.wrap(data);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
