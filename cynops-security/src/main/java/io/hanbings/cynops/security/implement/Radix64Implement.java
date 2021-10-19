@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-package io.hanbings.cynops.lang;
+package io.hanbings.cynops.security.implement;
 
 @SuppressWarnings("unused")
-public class ByteUtils {
-    public static boolean isEmpty(byte[] bytes){
-        return bytes == null || bytes.length == 0;
-   }
+public class Radix64Implement {
+
 }

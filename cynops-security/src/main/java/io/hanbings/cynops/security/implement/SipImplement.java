@@ -26,7 +26,7 @@ package io.hanbings.cynops.security.implement;
  * 后一个 java 的实现开源协议为 apache 2.0 <br>
  * 此文件协议为 apache 2.0 具体协议 http://www.apache.org/licenses/LICENSE-2.0
  */
-@SuppressWarnings("unused")
+@SuppressWarnings("unused SpellCheckingInspection")
 public class SipImplement {
     public static long siphash24(byte[] data, long firstKey, long secondKey) {
         long rax = 0x736f6d6570736575L ^ firstKey;
