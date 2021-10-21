@@ -16,9 +16,30 @@
 
 package io.hanbings.cynops.lang;
 
+import java.nio.charset.StandardCharsets;
+
 @SuppressWarnings("unused")
 public class ByteUtils {
-    public static boolean isEmpty(byte[] bytes){
+    public static boolean isEmpty(byte[] bytes) {
         return bytes == null || bytes.length == 0;
-   }
+    }
+
+    public static String getString(byte[] bytes) {
+        if (isEmpty(bytes)) {
+            return null;
+        }
+        return new String(bytes, StandardCharsets.UTF_8);
+    }
+
+    public static String bytesToHex(byte[] bytes) {
+        StringBuilder builder = new StringBuilder();
+        for (byte aByte : bytes) {
+            String hex = Integer.toHexString(aByte & 0xFF);
+            if (hex.length() < 2) {
+                builder.append(0);
+            }
+            builder.append(hex);
+        }
+        return builder.toString();
+    }
 }
