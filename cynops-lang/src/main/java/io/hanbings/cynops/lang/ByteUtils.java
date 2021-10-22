@@ -17,6 +17,7 @@
 package io.hanbings.cynops.lang;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 /**
  * byte 工具类
@@ -88,5 +89,35 @@ public class ByteUtils {
             builder.append(hex);
         }
         return builder.toString();
+    }
+
+    /**
+     * 裁剪 byte 数组中的一段
+     *
+     * @param bytes      byte 数组
+     * @param beginIndex 开始裁剪处
+     * @return 裁剪后的 byte 数组
+     */
+    public static byte[] subBytes(byte[] bytes, int beginIndex) {
+        byte[] octets = new byte[bytes.length - beginIndex];
+        if (bytes.length - beginIndex >= 0) {
+            System.arraycopy(bytes, beginIndex, octets, 0, bytes.length - beginIndex);
+        }
+        return octets;
+    }
+
+    /**
+     * 裁剪 byte 数组中的一段
+     *
+     * @param bytes      byte 数组
+     * @param beginIndex 开始裁剪处
+     * @param endIndex   结束裁剪处
+     * @return 裁剪后的 byte 数组
+     */
+    public static byte[] subBytes(byte[] bytes, int beginIndex, int endIndex) {
+        byte[] octets = new byte[bytes.length - (bytes.length - endIndex) - beginIndex];
+        if (endIndex - beginIndex >= 0)
+            System.arraycopy(bytes, beginIndex, octets, 0, endIndex - beginIndex);
+        return octets;
     }
 }
