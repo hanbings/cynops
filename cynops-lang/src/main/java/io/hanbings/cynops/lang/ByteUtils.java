@@ -18,23 +18,70 @@ package io.hanbings.cynops.lang;
 
 import java.nio.charset.StandardCharsets;
 
+/**
+ * byte 工具类
+ * 用于处理 byte 数据的转换 编辑
+ */
 @SuppressWarnings("unused")
 public class ByteUtils {
-    public static boolean isEmpty(byte[] bytes) {
+    /**
+     * 单个 byte 判断是否为 0
+     *
+     * @param octet 一个 byte
+     * @return 判断结果
+     */
+    public static boolean isZero(byte octet) {
+        return octet == 0;
+    }
+
+    /**
+     * byte 数组判断是否为 0
+     *
+     * @param bytes byte 数组
+     * @return 判断结果
+     */
+    public static boolean isAllZero(byte[] bytes) {
+        for (byte octet : bytes) {
+            if (octet != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 判断 byte 数组是否为 null 或是长度为 0
+     *
+     * @param bytes byte 数组
+     * @return 判断结果
+     */
+    public static boolean isAllEmpty(byte[] bytes) {
         return bytes == null || bytes.length == 0;
     }
 
+    /**
+     * 将 byte 数组转换为 String
+     *
+     * @param bytes byte 数组
+     * @return 转换结果
+     */
     public static String getString(byte[] bytes) {
-        if (isEmpty(bytes)) {
+        if (isAllEmpty(bytes)) {
             return null;
         }
         return new String(bytes, StandardCharsets.UTF_8);
     }
 
-    public static String bytesToHex(byte[] bytes) {
+    /**
+     * 将 byte 数组转换为 Hex String
+     *
+     * @param bytes byte 数组
+     * @return 转换结果
+     */
+    public static String getHex(byte[] bytes) {
         StringBuilder builder = new StringBuilder();
-        for (byte aByte : bytes) {
-            String hex = Integer.toHexString(aByte & 0xFF);
+        for (byte octet : bytes) {
+            String hex = Integer.toHexString(octet & 0xFF);
             if (hex.length() < 2) {
                 builder.append(0);
             }
