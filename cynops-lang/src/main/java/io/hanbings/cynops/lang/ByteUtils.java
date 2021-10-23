@@ -120,4 +120,18 @@ public class ByteUtils {
             System.arraycopy(bytes, beginIndex, octets, 0, endIndex - beginIndex);
         return octets;
     }
+
+    /**
+     * 向一段 byte 数组追加另一段 byte 数组
+     *
+     * @param bytes     第一段 byte 数组
+     * @param shouldAdd 第二段 byte 数组
+     * @return 拼接后的结果
+     */
+    public static byte[] addBytes(byte[] bytes, byte[] shouldAdd) {
+        byte[] target = new byte[bytes.length + shouldAdd.length];
+        System.arraycopy(bytes, 0, target, 0, bytes.length);
+        System.arraycopy(shouldAdd, 0, target, bytes.length, bytes.length + shouldAdd.length - bytes.length);
+        return target;
+    }
 }
