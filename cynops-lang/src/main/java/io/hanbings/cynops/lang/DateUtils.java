@@ -16,6 +16,20 @@
 
 package io.hanbings.cynops.lang;
 
+import java.util.Date;
+
+/**
+ * 日期工具类
+ * 封装 Date 提供 日期相加减 格式化 特殊日期 等
+ */
 @SuppressWarnings("unused")
 public class DateUtils {
+    /**
+     * 获取当前的时间
+     *
+     * @return 返回当前的时间
+     */
+    public static Date getNowDate() {
+        return new Date();
+    }
 }
