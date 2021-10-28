@@ -4,7 +4,7 @@
 
 ![Github License](https://img.shields.io/github/license/hanbings/cynops?style=for-the-badge) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/hanbings/cynops/Cynops%20Build%20Github%20Actions?style=for-the-badge) ![Jenkins](https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fci.hanbings.io%2Fjob%2FCynops%2F&label=build&style=for-the-badge) ![Codacy grade](https://img.shields.io/codacy/grade/acf95e2e5fb54a748606e8db08b169f7?style=for-the-badge) ![Version](https://img.shields.io/badge/version-java11-orange?style=for-the-badge) ![GitHub Last Commit](https://img.shields.io/github/last-commit/hanbings/cynops?style=for-the-badge) [![Blog](https://img.shields.io/badge/website-cynops-lightgrey.svg?style=for-the-badge)](https://cynops.tech) [![Blog](https://img.shields.io/badge/blog-@hanbings-blue.svg?style=for-the-badge)](https://blog.hanbings.io)
 
-
+#  
 
 ### 🍔 自我介绍：
 
@@ -12,7 +12,7 @@
 我是为了减少搜索频率，增加键盘寿命而生的！<br />
 你也可以把我视作一个把各种要频繁搜索的内容放到一起而已，并不是什么认真设计的项目
 
-
+#  
 
 ### 👷 构建状态：
 
@@ -22,7 +22,7 @@
 | [CI Server](https://ci.hanbings.io/blue/organizations/jenkins/Cynops/activity) | ![Jenkins](https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fci.hanbings.io%2Fjob%2FCynops%2F&label=build&style=flat-square) |
 | [Code Check](https://www.codacy.com/)                        | ![Codacy grade](https://img.shields.io/codacy/grade/acf95e2e5fb54a748606e8db08b169f7?style=flat-square) |
 
-
+#  
 
 ### ✨ 功能：
 
@@ -47,13 +47,20 @@
 
 🕸 表示该模块在短期内将不会进行开发
 
+#  
 
+### 🎯 设计上的偏执：
+
+1. 尽可能的 static 而非实例化
+2. 接受 null 作为参数 但大多数时情况都是接受了一个 null 直接返回一个 null
+
+#  
 
 ### 📝 文档：
 
 EventBus 解析：[Java实现一个简单的EventBus](https://blog.hanbings.io/2021/08/27/Java%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84EventBus/)
 
-
+#  
 
 ### 🍺 使用：
 
@@ -63,7 +70,7 @@ https://repository.hanbings.com/<br />
 
 前往仓库查看需要的版本并引用它即可
 
-
+#  
 
 ### 🎉 贡献：
 
@@ -73,7 +80,7 @@ https://repository.hanbings.com/<br />
 2. 尽可能的多一些**注释** 代码风格贴近 阿里 或 Google
 3. 为了 Github 平台观感更好一些 项目使用大量 emoji 对 commit readme 等进行修饰 请按照下面的表格来修饰 commit 记录
 
-
+#  
 
 ### 🎨 命名约定：
 
