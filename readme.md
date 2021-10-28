@@ -34,7 +34,7 @@
 | ⚓️             | cynops-io       | IO 工具                                          |
 | 🚧             | cynops-lang     | 基本类型工具以及扩展基本类型                     |
 | 🕸             | cynops-script   | 脚本引擎                                         |
-| 🚧             | cynops-security | 安全工具 目前是摘要、对称加密算法的封装          |
+| 🚧             | cynops-security | 安全工具 目前是摘要、对称/非对称加密算法的封装   |
 | 🕸             | cynops-server   | 计划包括 Http Websocket TCP UDP KCP 等服务端封装 |
 | ⚓️             | cynops-task     | 线程池 进程池 定时任务 守护进程                  |
 | 🕸             | cynops-tool     | 送一个下崽器（错乱）                             |

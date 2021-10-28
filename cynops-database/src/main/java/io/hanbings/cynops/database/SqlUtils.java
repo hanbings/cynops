@@ -21,6 +21,11 @@ import java.util.regex.Pattern;
 
 @SuppressWarnings("unused")
 public class SqlUtils {
+    // 屏蔽没别的 看得不太爽而已
+    @SuppressWarnings("ALL")
+    public static String defaultRegex = "\\b(and|exec|insert|select|drop|grant|alter|delete" +
+            "|update|count|chr|mid|master|truncate|char|declare|or)\\b|(\\*|;|\\+|'|%)\n";
+
     /**
      * 使用工具包自带的规则
      *
@@ -45,9 +50,4 @@ public class SqlUtils {
         Matcher matcher = pattern.matcher(sql.toLowerCase());
         return matcher.find();
     }
-
-    // 屏蔽没别的 看得不太爽而已
-    @SuppressWarnings("ALL")
-    public static String defaultRegex = "\\b(and|exec|insert|select|drop|grant|alter|delete" +
-            "|update|count|chr|mid|master|truncate|char|declare|or)\\b|(\\*|;|\\+|'|%)\n";
 }
