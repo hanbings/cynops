@@ -35,7 +35,11 @@ public class MurmurImplement {
     // 用于将各种掩码转换为无符号值的简单常量
     private static final int UNSIGNED_MASK = 0xff;
     private static final long UINT_MASK = 0xffffffffL;
-    private static final long LONG_MASK = 0xffffffffffffffffL;
+    // murmur3 所用到的常量
+    private static final int X86_32_C1 = 0xcc9e2d51;
+    private static final int X86_32_C2 = 0x1b873593;
+    private static final long X64_128_C1 = 0x87c37b91114253d5L;
+    private static final long X64_128_C2 = 0x4cf5ad432745937fL;
 
     /**
      * 按照原始源代码中的描述计算 Murmur1 哈希
@@ -46,7 +50,7 @@ public class MurmurImplement {
      *
      * @param data   需要散列的数据
      * @param length 需要散列的数据长度
-     * @param key   用于计算哈希的种子
+     * @param key    用于计算哈希的种子
      * @return 计算出的哈希值
      */
     public static long murmur1(final byte[] data, int length, long key) {
@@ -95,7 +99,7 @@ public class MurmurImplement {
      *
      * @param data   需要散列的数据
      * @param length 需要散列的数据长度
-     * @param key   用于计算哈希的种子
+     * @param key    用于计算哈希的种子
      * @return 计算出的哈希值
      */
     public static long murmur2With32(final byte[] data, int length, long key) {
@@ -144,7 +148,7 @@ public class MurmurImplement {
      *
      * @param data   需要散列的数据
      * @param length 需要散列的数据长度
-     * @param key   用于计算哈希的种子
+     * @param key    用于计算哈希的种子
      * @return 计算出的哈希值
      */
     public static long murmur2With64(final byte[] data, int length, long key) {
@@ -190,11 +194,6 @@ public class MurmurImplement {
         return h;
     }
 
-    private static final int X86_32_C1 = 0xcc9e2d51;
-    private static final int X86_32_C2 = 0x1b873593;
-    private static final long X64_128_C1 = 0x87c37b91114253d5L;
-    private static final long X64_128_C2 = 0x4cf5ad432745937fL;
-
     /**
      * 按照原始源代码中的描述计算 Murmur3 32 位 哈希
      * <a href="https://code.google.com/p/smhasher/source/browse/trunk/MurmurHash3.cpp">
@@ -202,7 +201,7 @@ public class MurmurImplement {
      *
      * @param data   需要散列的数据
      * @param length 需要散列的数据长度
-     * @param key   用于计算哈希的种子
+     * @param key    用于计算哈希的种子
      * @return 计算出的哈希值
      */
     public static long murmur3With32(final byte[] data, int length, long key) {
@@ -254,7 +253,7 @@ public class MurmurImplement {
      *
      * @param data   需要散列的数据
      * @param length 需要散列的数据长度
-     * @param key   用于计算哈希的种子
+     * @param key    用于计算哈希的种子
      * @return 计算出的哈希值
      */
     public static long[] murmur3With128(final byte[] data, final int length, final long key) {

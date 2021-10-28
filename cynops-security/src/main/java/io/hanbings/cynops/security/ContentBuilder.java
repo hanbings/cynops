@@ -18,5 +18,5 @@ package io.hanbings.cynops.security;
 
 @SuppressWarnings("unused")
 public class ContentBuilder {
-    public ContentBuilder() {}
+
 }

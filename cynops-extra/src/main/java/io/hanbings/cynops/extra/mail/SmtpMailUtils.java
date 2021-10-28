@@ -47,12 +47,11 @@ public class SmtpMailUtils {
      * @param password 发件邮箱密码
      * @param isHTML   是否对邮件进行 HTML 渲染
      */
-    public static void sendMail(String host, int port
-            , boolean isAuth, boolean isSSL, boolean isDebug
-            , String display, String from, String to
-            , String title, String content
-            , String mail, String password
-            , boolean isHTML) {
+    public static void sendMail(String host, int port,
+                                boolean isAuth, boolean isSSL, boolean isDebug,
+                                String display, String from, String to,
+                                String title, String content, String mail,
+                                String password, boolean isHTML) {
         Properties properties = getSmtpProperties(host, port, mail, password, isAuth, isSSL);
         Session session = getSession(properties, isDebug);
         sendMail(properties, display, from, to, title, content, session, isHTML);
@@ -70,11 +69,10 @@ public class SmtpMailUtils {
      * @param session    邮件 Session
      * @param isHTML     是否对邮件进行 HTML 渲染
      */
-    public static void sendMail(Properties properties
-            , String display, String from, String to
-            , String title, String content
-            , Session session
-            , boolean isHTML) {
+    public static void sendMail(Properties properties,
+                                String display, String from, String to,
+                                String title, String content,
+                                Session session, boolean isHTML) {
         Message message = new MimeMessage(session);
         try {
             message.setFrom(new InternetAddress(from, display, "UTF-8"));
