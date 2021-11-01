@@ -20,7 +20,7 @@ import com.mongodb.*;
 import com.mongodb.client.MongoDatabase;
 
 @SuppressWarnings("unused")
-public class MongoDBUtils {
+public class MongoDBConnector {
 
     /**
      * 获取数据库对象
@@ -44,9 +44,9 @@ public class MongoDBUtils {
      * @return 返回一步到位的数据库对象
      */
     public static MongoDatabase getMongoDatabase(String address, int port, String username, String database, String password) {
-        return MongoDBUtils.getMongoClient(MongoDBUtils.getServerAddress(address, port)
-                , MongoDBUtils.getMongoCredential(username, database, password)
-                , MongoDBUtils.getMongoClientOptions()
+        return MongoDBConnector.getMongoClient(MongoDBConnector.getServerAddress(address, port)
+                , MongoDBConnector.getMongoCredential(username, database, password)
+                , MongoDBConnector.getMongoClientOptions()
         ).getDatabase(database);
     }
 

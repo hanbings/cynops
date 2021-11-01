@@ -19,7 +19,7 @@ package io.hanbings.cynops.database.redis;
 import redis.clients.jedis.Jedis;
 
 @SuppressWarnings("unused")
-public class RedisUtils {
+public class RedisConnector {
     /**
      * 使用默认端口 链接 无认证 redis
      *
