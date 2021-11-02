@@ -3,6 +3,7 @@ package io.hanbings.cynops.database;
 import io.hanbings.cynops.database.interfaces.SqliteData;
 import io.hanbings.cynops.database.interfaces.SqliteDataTable;
 import io.hanbings.cynops.database.interfaces.SqliteDataType;
+import io.hanbings.cynops.database.sqlite.SqliteSqlBuilder;
 
 @SuppressWarnings("unused")
 public class DataBaseTest {
@@ -10,7 +11,7 @@ public class DataBaseTest {
     class Test {
         @SqliteData
         long uuid;
-        @SqliteData(type = SqliteDataType.TEXT)
+        @SqliteData(type = SqliteDataType.TEXT, isPrimaryKey = true)
         String name;
         @SqliteData(type = SqliteDataType.TEXT)
         String nike;
@@ -47,6 +48,7 @@ public class DataBaseTest {
     }
 
     public static void main(String[] args) {
-
+        String sql = SqliteSqlBuilder.createTable(Test.class);
+        System.out.println(sql);
     }
 }

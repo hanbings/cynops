@@ -25,8 +25,7 @@ import java.lang.annotation.*;
  * <p>
  * 注解有三个参数 <br>
  * table - 字符串 数据表名
- * isToUpper - 布尔 是否需要全部转为大写 默认为 false 即保持字段原本的大小写
- * isCover - 布尔 是否覆盖已有的数据表 默认为 false
+ * isToUpper - 布尔 是否需要全部转为大写 默认为 false 即保持字段原本的大小
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -36,6 +35,4 @@ public @interface SqliteDataTable {
     String table();
 
     boolean isToUpper() default false;
-
-    boolean isCover() default false;
 }
