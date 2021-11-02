@@ -16,15 +16,11 @@
 
 package io.hanbings.cynops.database.interfaces;
 
-import java.lang.annotation.*;
-
-/**
- * 被 DataTable 注解后 希望其中某一个字段不为空 <br>
- * 可以使用此注解标记
- */
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
 @SuppressWarnings("unused")
-public @interface NotNull {
+public class SqliteDataType {
+    public static final String NULL = "NULL";
+    public static final String INTEGER = "INTEGER";
+    public static final String REAL = "REAL";
+    public static final String TEXT = "TEXT";
+    public static final String BLOB = "BLOB";
 }

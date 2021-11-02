@@ -1,26 +1,18 @@
 package io.hanbings.cynops.database;
 
-import io.hanbings.cynops.database.interfaces.NotNull;
-import io.hanbings.cynops.database.interfaces.PrimaryKey;
+import io.hanbings.cynops.database.interfaces.SqliteData;
 import io.hanbings.cynops.database.interfaces.SqliteDataTable;
-import io.hanbings.cynops.database.interfaces.Unique;
-import io.hanbings.cynops.database.sqlite.SqliteConnector;
-import io.hanbings.cynops.database.sqlite.SqliteSqlBuilder;
+import io.hanbings.cynops.database.interfaces.SqliteDataType;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Objects;
-
+@SuppressWarnings("unused")
 public class DataBaseTest {
     @SqliteDataTable(table = "test")
     class Test {
-        @PrimaryKey
+        @SqliteData
         long uuid;
-        @NotNull
+        @SqliteData(type = SqliteDataType.TEXT)
         String name;
-        @Unique
-        @NotNull
+        @SqliteData(type = SqliteDataType.TEXT)
         String nike;
 
         public Test(long uuid, String name, String nike) {
@@ -55,21 +47,6 @@ public class DataBaseTest {
     }
 
     public static void main(String[] args) {
-        String sql = SqliteSqlBuilder.createTable(Test.class);
-        System.out.println(sql);
-        Connection connection = SqliteConnector.getSQLiteConnection("./test.db");
-        Statement statement = null;
-        try {
-            statement = Objects.requireNonNull(connection).createStatement();
-            statement.execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        sql = SqliteSqlBuilder.deleteTable(Test.class);
-        try {
-            Objects.requireNonNull(statement).execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
     }
 }
