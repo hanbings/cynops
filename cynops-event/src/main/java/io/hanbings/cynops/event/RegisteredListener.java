@@ -48,19 +48,13 @@ public class RegisteredListener {
     }
 
     private int getPriorityShadow(EventPriority priority) {
-        switch (priority) {
-            case LOWEST:
-                return 0;
-            case LOW:
-                return 1;
-            case HIGH:
-                return 3;
-            case HIGHEST:
-                return 4;
-            case MONITOR:
-                return 5;
-            default:
-                return 2;
-        }
+        return switch (priority) {
+            case LOWEST -> 0;
+            case LOW -> 1;
+            case HIGH -> 3;
+            case HIGHEST -> 4;
+            case MONITOR -> 5;
+            default -> 2;
+        };
     }
 }
