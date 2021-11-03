@@ -20,6 +20,10 @@ import io.hanbings.cynops.database.interfaces.SqliteData;
 import io.hanbings.cynops.database.interfaces.SqliteDataTable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 @SuppressWarnings("unused")
@@ -82,5 +86,163 @@ public class SqliteSqlBuilder {
             builder.append(table.getAnnotation(SqliteDataTable.class).table());
         }
         return builder.append(";").toString();
+    }
+
+    public static String insert(Object data) {
+        StringBuilder builder = new StringBuilder();
+        List<String> addable = new ArrayList<>();
+        builder.append("INSERT INTO ");
+        if (data.getClass().isAnnotationPresent(SqliteDataTable.class)) {
+            builder.append(data.getClass().getAnnotation(SqliteDataTable.class).table());
+            // 遍历字段 获取符合要求的字段
+            Field[] fields = data.getClass().getDeclaredFields();
+            boolean flag = false;
+            builder.append(" (");
+            for (Field field : fields) {
+                if (field.isAnnotationPresent(SqliteData.class)) {
+                    addable.add(field.getName());
+                }
+                if (flag) {
+                    builder.append(", ");
+                } else {
+                    flag = true;
+                }
+                if (data.getClass().getAnnotation(SqliteDataTable.class).isToUpper()) {
+                    builder.append(field.getName().toUpperCase(Locale.ROOT));
+                } else {
+                    builder.append(field.getName());
+                }
+            }
+            builder.append(") VALUE (");
+            flag = false;
+            // 遍历字段 拼接 get 方法 获取字段值
+            for (String add : addable) {
+                if (flag) {
+                    builder.append(", ");
+                } else {
+                    flag = true;
+                }
+                try {
+                    Method method = data.getClass().getMethod("get" + captureName(add));
+                    method.setAccessible(true);
+                    builder.append(method.invoke(data));
+                } catch (NoSuchMethodException e) {
+                    try {
+                        Method method = data.getClass().getMethod("is" + captureName(add));
+                        method.setAccessible(true);
+                        builder.append(method.invoke(data));
+                    } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ex) {
+                        ex.printStackTrace();
+                    }
+                } catch (InvocationTargetException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return builder.append(");").toString();
+    }
+
+    public static String update(Object data) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("UPDATE ");
+        if (data.getClass().isAnnotationPresent(SqliteDataTable.class)) {
+            builder.append(data.getClass().getAnnotation(SqliteDataTable.class).table());
+            // 遍历字段 获取符合要求的字段
+            Field[] fields = data.getClass().getDeclaredFields();
+            boolean flag = false;
+            String primary = "";
+            Object value = "";
+            builder.append(" SET ");
+            for (Field field : fields) {
+                if (flag) {
+                    builder.append(", ");
+                } else {
+                    flag = true;
+                }
+                if (field.isAnnotationPresent(SqliteData.class)) {
+                    if (data.getClass().getAnnotation(SqliteDataTable.class).isToUpper()) {
+                        builder.append(field.getName().toUpperCase(Locale.ROOT)).append(" = ");
+                    } else {
+                        builder.append(field.getName()).append(" = ");
+                    }
+                    try {
+                        Method method = data.getClass().getMethod("get" + captureName(field.getName()));
+                        method.setAccessible(true);
+                        Object temp = method.invoke(data);
+                        if (field.getAnnotation(SqliteData.class).isPrimaryKey()) {
+                            primary = field.getName();
+                            value = temp;
+                        }
+                        builder.append(temp);
+                    } catch (NoSuchMethodException e) {
+                        try {
+                            Method method = data.getClass().getMethod("is" + captureName(field.getName()));
+                            method.setAccessible(true);
+                            Object temp = method.invoke(data);
+                            if (field.getAnnotation(SqliteData.class).isPrimaryKey()) {
+                                primary = field.getName();
+                                value = temp;
+                            }
+                            builder.append(temp);
+                        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
+                            ex.printStackTrace();
+                        }
+                    } catch (IllegalAccessException | InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            builder.append(" WHERE ").append(primary).append(" = ").append(value);
+        }
+        return builder.append(";").toString();
+    }
+
+    public static String read(Object data) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("SELECT ");
+        if (data.getClass().isAnnotationPresent(SqliteDataTable.class)) {
+            // 遍历字段 获取符合要求的字段
+            Field[] fields = data.getClass().getDeclaredFields();
+            for (Field field : fields) {
+                if (field.isAnnotationPresent(SqliteData.class)) {
+                    if (field.getAnnotation(SqliteData.class).isPrimaryKey()) {
+                        if (data.getClass().getAnnotation(SqliteDataTable.class).isToUpper()) {
+                            builder.append(field.getName().toUpperCase(Locale.ROOT));
+                        } else {
+                            builder.append(field.getName());
+                        }
+                        builder.append(" FROM ")
+                                .append(data.getClass().getAnnotation(SqliteDataTable.class).table())
+                                .append(" WHERE ")
+                                .append(data.getClass()
+                                        .getAnnotation(SqliteDataTable.class).isToUpper() ? field.getName().toUpperCase(Locale.ROOT) : field.getName())
+                                .append(" = ");
+
+                        try {
+                            Method method = data.getClass().getMethod("get" + captureName(field.getName()));
+                            method.setAccessible(true);
+                            builder.append(method.invoke(data));
+                        } catch (NoSuchMethodException e) {
+                            try {
+                                Method method = data.getClass().getMethod("is" + captureName(field.getName()));
+                                method.setAccessible(true);
+                                builder.append(method.invoke(data));
+                            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
+                                ex.printStackTrace();
+                            }
+                        } catch (IllegalAccessException | InvocationTargetException e) {
+                            e.printStackTrace();
+                        }
+                        return builder.append(";").toString();
+                    }
+                }
+            }
+        }
+        return builder.append(";").toString();
+    }
+
+    private static String captureName(String word) {
+        word = word.substring(0, 1).toUpperCase() + word.substring(1);
+        return word;
     }
 }
