@@ -7,7 +7,7 @@ import io.hanbings.cynops.database.sqlite.SqliteSqlBuilder;
 
 @SuppressWarnings("unused")
 public class DataBaseTest {
-    @SqliteDataTable(table = "test")
+    @SqliteDataTable(table = "test", isToUpper = true)
     static class Test {
         @SqliteData
         private long uuid;
@@ -74,7 +74,7 @@ public class DataBaseTest {
         Test test = new Test(3219065882L, "hanbings", "寒冰", true);
 
         begin = System.nanoTime();
-        sql = SqliteSqlBuilder.insert(test);
+        sql = SqliteSqlBuilder.create(test);
         System.out.println(sql);
         end = System.nanoTime();
         System.out.println("[use time]: " + (end - begin) + " ns");
@@ -87,6 +87,12 @@ public class DataBaseTest {
 
         begin = System.nanoTime();
         sql = SqliteSqlBuilder.read(test);
+        System.out.println(sql);
+        end = System.nanoTime();
+        System.out.println("[use time]: " + (end - begin) + " ns");
+
+        begin = System.nanoTime();
+        sql = SqliteSqlBuilder.delete(test);
         System.out.println(sql);
         end = System.nanoTime();
         System.out.println("[use time]: " + (end - begin) + " ns");

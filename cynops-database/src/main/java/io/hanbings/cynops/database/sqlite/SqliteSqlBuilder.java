@@ -88,7 +88,7 @@ public class SqliteSqlBuilder {
         return builder.append(";").toString();
     }
 
-    public static String insert(Object data) {
+    public static String create(Object data) {
         StringBuilder builder = new StringBuilder();
         List<String> addable = new ArrayList<>();
         builder.append("INSERT INTO ");
@@ -199,19 +199,52 @@ public class SqliteSqlBuilder {
 
     public static String read(Object data) {
         StringBuilder builder = new StringBuilder();
-        builder.append("SELECT ");
+        builder.append("SELECT *");
         if (data.getClass().isAnnotationPresent(SqliteDataTable.class)) {
             // 遍历字段 获取符合要求的字段
             Field[] fields = data.getClass().getDeclaredFields();
             for (Field field : fields) {
                 if (field.isAnnotationPresent(SqliteData.class)) {
                     if (field.getAnnotation(SqliteData.class).isPrimaryKey()) {
-                        if (data.getClass().getAnnotation(SqliteDataTable.class).isToUpper()) {
-                            builder.append(field.getName().toUpperCase(Locale.ROOT));
-                        } else {
-                            builder.append(field.getName());
-                        }
                         builder.append(" FROM ")
+                                .append(data.getClass().getAnnotation(SqliteDataTable.class).table())
+                                .append(" WHERE ")
+                                .append(data.getClass()
+                                        .getAnnotation(SqliteDataTable.class).isToUpper() ? field.getName().toUpperCase(Locale.ROOT) : field.getName())
+                                .append(" = ");
+
+                        try {
+                            Method method = data.getClass().getMethod("get" + captureName(field.getName()));
+                            method.setAccessible(true);
+                            builder.append(method.invoke(data));
+                        } catch (NoSuchMethodException e) {
+                            try {
+                                Method method = data.getClass().getMethod("is" + captureName(field.getName()));
+                                method.setAccessible(true);
+                                builder.append(method.invoke(data));
+                            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
+                                ex.printStackTrace();
+                            }
+                        } catch (IllegalAccessException | InvocationTargetException e) {
+                            e.printStackTrace();
+                        }
+                        return builder.append(";").toString();
+                    }
+                }
+            }
+        }
+        return builder.append(";").toString();
+    }
+
+    public static String delete(Object data) {
+        StringBuilder builder = new StringBuilder();
+        if (data.getClass().isAnnotationPresent(SqliteDataTable.class)) {
+            // 遍历字段 获取符合要求的字段
+            Field[] fields = data.getClass().getDeclaredFields();
+            for (Field field : fields) {
+                if (field.isAnnotationPresent(SqliteData.class)) {
+                    if (field.getAnnotation(SqliteData.class).isPrimaryKey()) {
+                        builder.append("DELETE FROM ")
                                 .append(data.getClass().getAnnotation(SqliteDataTable.class).table())
                                 .append(" WHERE ")
                                 .append(data.getClass()
