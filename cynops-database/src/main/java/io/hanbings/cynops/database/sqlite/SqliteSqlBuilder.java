@@ -28,6 +28,11 @@ import java.util.Locale;
 
 @SuppressWarnings("unused")
 public class SqliteSqlBuilder {
+    /**
+     * 创建一个数据表
+     * @param table 表实体
+     * @return sql 语句
+     */
     public static String createTable(Class<?> table) {
         StringBuilder builder = new StringBuilder();
         builder.append("CREATE TABLE ");
@@ -51,11 +56,8 @@ public class SqliteSqlBuilder {
                     // 获取注解
                     SqliteData data = field.getAnnotation(SqliteData.class);
                     // 字段名 类型 主键 唯一约束 非空
-                    if (table.getAnnotation(SqliteDataTable.class).isToUpper()) {
-                        builder.append(field.getName().toUpperCase(Locale.ROOT));
-                    } else {
-                        builder.append(field.getName());
-                    }
+                    builder.append(table.getAnnotation(SqliteDataTable.class).isToUpper()
+                            ? getColumnName(field.getName()).toUpperCase(Locale.ROOT) : getColumnName(field.getName()));
                     // 添加类型
                     builder.append(" ").append(data.type());
                     // 判断是否为主键 当然 只允许一个主键
@@ -79,6 +81,11 @@ public class SqliteSqlBuilder {
         return builder.append(");").toString();
     }
 
+    /**
+     * 删除一个数据表
+     * @param table 表实体
+     * @return sql 语句
+     */
     public static String deleteTable(Class<?> table) {
         StringBuilder builder = new StringBuilder();
         builder.append("DROP TABLE ");
@@ -88,6 +95,11 @@ public class SqliteSqlBuilder {
         return builder.append(";").toString();
     }
 
+    /**
+     * 创建一行数据
+     * @param data 数据实体
+     * @return sql 语句
+     */
     public static String create(Object data) {
         StringBuilder builder = new StringBuilder();
         List<String> addable = new ArrayList<>();
@@ -101,16 +113,13 @@ public class SqliteSqlBuilder {
             for (Field field : fields) {
                 if (field.isAnnotationPresent(SqliteData.class)) {
                     addable.add(field.getName());
-                }
-                if (flag) {
-                    builder.append(", ");
-                } else {
-                    flag = true;
-                }
-                if (data.getClass().getAnnotation(SqliteDataTable.class).isToUpper()) {
-                    builder.append(field.getName().toUpperCase(Locale.ROOT));
-                } else {
-                    builder.append(field.getName());
+                    if (flag) {
+                        builder.append(", ");
+                    } else {
+                        flag = true;
+                    }
+                    builder.append(data.getClass().getAnnotation(SqliteDataTable.class).isToUpper()
+                            ? getColumnName(field.getName()).toUpperCase(Locale.ROOT) : getColumnName(field.getName()));
                 }
             }
             builder.append(") VALUE (");
@@ -125,12 +134,12 @@ public class SqliteSqlBuilder {
                 try {
                     Method method = data.getClass().getMethod("get" + captureName(add));
                     method.setAccessible(true);
-                    builder.append(method.invoke(data));
+                    builder.append("'").append(method.invoke(data)).append("'");
                 } catch (NoSuchMethodException e) {
                     try {
                         Method method = data.getClass().getMethod("is" + captureName(add));
                         method.setAccessible(true);
-                        builder.append(method.invoke(data));
+                        builder.append("'").append(method.invoke(data)).append("'");
                     } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ex) {
                         ex.printStackTrace();
                     }
@@ -141,7 +150,11 @@ public class SqliteSqlBuilder {
         }
         return builder.append(");").toString();
     }
-
+    /**
+     * 更新一行数据
+     * @param data 数据实体
+     * @return sql 语句
+     */
     public static String update(Object data) {
         StringBuilder builder = new StringBuilder();
         builder.append("UPDATE ");
@@ -173,7 +186,7 @@ public class SqliteSqlBuilder {
                             primary = field.getName();
                             value = temp;
                         }
-                        builder.append(temp);
+                        builder.append("'").append(temp).append("'");
                     } catch (NoSuchMethodException e) {
                         try {
                             Method method = data.getClass().getMethod("is" + captureName(field.getName()));
@@ -183,7 +196,7 @@ public class SqliteSqlBuilder {
                                 primary = field.getName();
                                 value = temp;
                             }
-                            builder.append(temp);
+                            builder.append("'").append(temp).append("'");
                         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
                             ex.printStackTrace();
                         }
@@ -192,11 +205,15 @@ public class SqliteSqlBuilder {
                     }
                 }
             }
-            builder.append(" WHERE ").append(primary).append(" = ").append(value);
+            builder.append(" WHERE ").append(primary).append(" = ").append("'").append(value).append("'");
         }
         return builder.append(";").toString();
     }
-
+    /**
+     * 读取一行数据
+     * @param data 数据实体
+     * @return sql 语句
+     */
     public static String read(Object data) {
         StringBuilder builder = new StringBuilder();
         builder.append("SELECT *");
@@ -216,12 +233,12 @@ public class SqliteSqlBuilder {
                         try {
                             Method method = data.getClass().getMethod("get" + captureName(field.getName()));
                             method.setAccessible(true);
-                            builder.append(method.invoke(data));
+                            builder.append("'").append(method.invoke(data)).append("'");
                         } catch (NoSuchMethodException e) {
                             try {
                                 Method method = data.getClass().getMethod("is" + captureName(field.getName()));
                                 method.setAccessible(true);
-                                builder.append(method.invoke(data));
+                                builder.append("'").append(method.invoke(data)).append("'");
                             } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
                                 ex.printStackTrace();
                             }
@@ -235,7 +252,11 @@ public class SqliteSqlBuilder {
         }
         return builder.append(";").toString();
     }
-
+    /**
+     * 删除一行数据
+     * @param data 数据实体
+     * @return sql 语句
+     */
     public static String delete(Object data) {
         StringBuilder builder = new StringBuilder();
         if (data.getClass().isAnnotationPresent(SqliteDataTable.class)) {
@@ -254,12 +275,12 @@ public class SqliteSqlBuilder {
                         try {
                             Method method = data.getClass().getMethod("get" + captureName(field.getName()));
                             method.setAccessible(true);
-                            builder.append(method.invoke(data));
+                            builder.append("'").append(method.invoke(data)).append("'");
                         } catch (NoSuchMethodException e) {
                             try {
                                 Method method = data.getClass().getMethod("is" + captureName(field.getName()));
                                 method.setAccessible(true);
-                                builder.append(method.invoke(data));
+                                builder.append("'").append(method.invoke(data)).append("'");
                             } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
                                 ex.printStackTrace();
                             }
@@ -274,8 +295,27 @@ public class SqliteSqlBuilder {
         return builder.append(";").toString();
     }
 
+    /**
+     * 首字母大写
+     * @param word 词
+     * @return 结果
+     */
     private static String captureName(String word) {
         word = word.substring(0, 1).toUpperCase() + word.substring(1);
         return word;
+    }
+
+    private static String getColumnName(String field) {
+        // 大写字母前使用下划线
+        // 大写字母全小写
+        StringBuilder builder = new StringBuilder();
+        char[] chars = field.toCharArray();
+        for (char c : chars) {
+            boolean digit = Character.isUpperCase(c);
+            String strings = String.valueOf(c);
+            String temp = strings.toLowerCase();
+            builder.append(digit ? "_" + temp : c);
+        }
+        return builder.toString();
     }
 }
