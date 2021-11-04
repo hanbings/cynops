@@ -40,4 +40,6 @@ public @interface SqliteData {
     boolean isPrimaryKey() default false;
 
     boolean isUnique() default false;
+
+    boolean isAutoincrement() default false;
 }

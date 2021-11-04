@@ -55,7 +55,7 @@ public class SqliteSqlBuilder {
                     }
                     // 获取注解
                     SqliteData data = field.getAnnotation(SqliteData.class);
-                    // 字段名 类型 主键 唯一约束 非空
+                    // 字段名 类型 主键 唯一约束 自增 非空
                     builder.append(table.getAnnotation(SqliteDataTable.class).isToUpper()
                             ? getColumnName(field.getName()).toUpperCase(Locale.ROOT) : getColumnName(field.getName()));
                     // 添加类型
@@ -70,6 +70,10 @@ public class SqliteSqlBuilder {
                     // 唯一约束
                     if (data.isUnique()) {
                         builder.append(" UNIQUE");
+                    }
+                    // 自增
+                    if (data.isAutoincrement()) {
+                        builder.append(" AUTOINCREMENT");
                     }
                     // 非空
                     if (data.isNotNull()) {
