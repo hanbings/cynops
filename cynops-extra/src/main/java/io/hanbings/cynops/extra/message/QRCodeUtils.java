@@ -16,5 +16,6 @@
 
 package io.hanbings.cynops.extra.message;
 
+@SuppressWarnings("unused")
 public class QRCodeUtils {
 }
