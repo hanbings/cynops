@@ -18,40 +18,39 @@ package io.hanbings.cynops.extra.oauth.interfaces;
 /**
  * OAuth 基本配置 <br>
  * 流程 <br>
- * - 有需要的话使用 proxy 方法设置代理 <br>
- * - 使用 oauth 获取生成授权页的 code 这个 code 将被发送到设定的回调地址 <br>
- * - 使用 url 方法生成用户点击的 url <br>
- * - 使用 data 方法获取用户数据
+ * - 每一个 oauth 实现都应有对应的 OAuthConfig
+ *   使用对应的 OAuthConfig 配置 oauth
+ *   如果没有 可以使用默认的 OAuthConfig <br>
+ * - 使用 oauth 方法设置 OAuthConfig 参数 <br>
+ * - 使用 authorize 方法获得用户授权 uri 用户授权后 返回到回调地址 <br>
+ * - authorize 方法返回 code 授权码 使用 token 方法获得 token 访问凭据 <br>
+ * - data 方法使用  token 访问凭据获得用户数据
  */
 @SuppressWarnings("unused")
 public interface OAuth {
     /**
-     *
-     * @param proxyType 代理类型 可选 http sock5
-     * @param proxyAddress 代理服务器地址
-     * @param proxyPort 代理服务器端口
+     * 设置基本参数
+     * @param config 对应的 OAuthConfig
      */
-    void proxy(OAuthProxyType proxyType, String proxyAddress, int proxyPort);
+    void oauth(OAuthConfig config);
 
     /**
-     * 请求 OAuth 链路 code
-     * @param clientId 客户端 ID
-     * @param clientSecret 客户端密钥
-     * @param redirectUri 回调 uri code 将会返回到这里
+     * 生成授权地址
+     * @return 授权地址 uri
      */
-    void oauth(String clientId, String clientSecret, String redirectUri);
+    String authorize();
 
     /**
-     * 组装用户的授权网页链接
-     * @param oauth oauth 方法得到的返回值
-     * @return 用户点击授权的页面 url
+     * 生成 token 用户凭据
+     * @param callback authorize 方法中返回的参数
+     * @return 获取到用户的访问凭据
      */
-    String url(String oauth);
-    
+    String token(String callback);
+
     /**
-     * 使用 url 方法获取到的 token 请求用户信息
-     * @param token url 方法获取的 token
-     * @return 用户信息
+     * 使用 token 方法中获取到的 token 用户凭据访问用户数据
+     * @param token 有效访问凭据
+     * @return 获取到的用户数据
      */
     String data(String token);
 }

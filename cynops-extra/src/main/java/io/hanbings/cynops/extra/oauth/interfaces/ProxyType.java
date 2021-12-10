@@ -16,6 +16,6 @@
 package io.hanbings.cynops.extra.oauth.interfaces;
 
 @SuppressWarnings("unused")
-public enum OAuthProxyType {
+public enum ProxyType {
     HTTP, SOCK5
 }

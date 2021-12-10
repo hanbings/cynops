@@ -13,31 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hanbings.cynops.extra.oauth;
-
-import io.hanbings.cynops.extra.oauth.interfaces.OAuth;
-import io.hanbings.cynops.extra.oauth.interfaces.OAuthConfig;
+package io.hanbings.cynops.extra.oauth.interfaces;
 
 @SuppressWarnings("unused")
-public class GithubOAuth implements OAuth {
-
-    @Override
-    public void oauth(OAuthConfig config) {
-
-    }
-
-    @Override
-    public String authorize() {
-        return null;
-    }
-
-    @Override
-    public String token(String callback) {
-        return null;
-    }
-
-    @Override
-    public String data(String token) {
-        return null;
-    }
+public class OAuthUrl {
+    // Github
+    public static final String GITHUB_AUTHORIZE = "https://github.com/login/oauth/authorize";
+    public static final String GITHUB_ACCESS_TOKEN = "https://github.com/login/oauth/access_token";
+    public static final String GITHUB_USER_DATA = "https://api.github.com/user";
 }
