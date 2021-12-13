@@ -17,18 +17,40 @@ package io.hanbings.cynops.extra.oauth;
 
 import io.hanbings.cynops.extra.oauth.interfaces.OAuth;
 import io.hanbings.cynops.extra.oauth.interfaces.OAuthConfig;
+import io.hanbings.cynops.extra.oauth.interfaces.OAuthUrl;
 
 @SuppressWarnings("unused")
 public class GithubOAuth implements OAuth {
+    OAuthConfig config;
 
     @Override
     public void oauth(OAuthConfig config) {
-
+        this.config = config;
     }
 
     @Override
     public String authorize() {
-        return null;
+        String url = OAuthUtils.addParam(OAuthUrl.GITHUB_AUTHORIZE, "client_id", config.getClientId());
+        // 如果有额外配置项
+        if (this.config instanceof GithubOAuthConfig) {
+            GithubOAuthConfig authConfig = (GithubOAuthConfig) this.config;
+            if (OAuthUtils.NotNull(authConfig.getLogin())) {
+                url = OAuthUtils.addParam(url, "login", authConfig.getLogin());
+            }
+            if (OAuthUtils.NotNull(authConfig.getScope())) {
+                url = OAuthUtils.addParam(url, "scope", authConfig.getScope());
+            }
+            if (OAuthUtils.NotNull(authConfig.getState())) {
+                url = OAuthUtils.addParam(url, "state", authConfig.getState());
+            }
+            if (OAuthUtils.NotNull(authConfig.getRedirectUri())) {
+                url = OAuthUtils.addParam(url, "redirect_uri", authConfig.getRedirectUri());
+            }
+            if (OAuthUtils.NotNull(authConfig.getAllowSignup())) {
+                url = OAuthUtils.addParam(url, "allow_signup", authConfig.getAllowSignup());
+            }
+        }
+        return url;
     }
 
     @Override

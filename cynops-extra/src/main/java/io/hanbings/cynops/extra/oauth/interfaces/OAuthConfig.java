@@ -33,7 +33,6 @@ package io.hanbings.cynops.extra.oauth.interfaces;
 public class OAuthConfig {
     String clientId;
     String clientSecret;
-    String redirectUri;
     boolean proxy;
     ProxyType proxyType;
     String proxyAddress;
@@ -46,14 +45,12 @@ public class OAuthConfig {
         this.clientId = clientId;
         return this;
     }
+
     public OAuthConfig clientSecret(String clientSecret) {
         this.clientSecret = clientSecret;
         return this;
     }
-    public OAuthConfig redirectUri(String redirectUri) {
-        this.redirectUri = redirectUri;
-        return this;
-    }
+
     public OAuthConfig isProxy(boolean proxy) {
         this.proxy = proxy;
         return this;
@@ -95,10 +92,6 @@ public class OAuthConfig {
 
     public String getClientSecret() {
         return clientSecret;
-    }
-
-    public String getRedirectUri() {
-        return redirectUri;
     }
 
     public boolean isProxy() {

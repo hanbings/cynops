@@ -41,14 +41,14 @@ public interface OAuth {
     String authorize();
 
     /**
-     * 生成 token 用户凭据
-     * @param callback authorize 方法中返回的参数
+     * 生成 token 用户凭据获取 url
+     * @param callback authorize 方法中返回的 code 参数 只需要 code 参数 不需要完整反馈
      * @return 获取到用户的访问凭据
      */
     String token(String callback);
 
     /**
-     * 使用 token 方法中获取到的 token 用户凭据访问用户数据
+     * 使用 token 方法中获取到的 token 用户凭据访问用户数据 仅生成 url
      * @param token 有效访问凭据
      * @return 获取到的用户数据
      */
