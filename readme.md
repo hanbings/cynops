@@ -26,18 +26,18 @@
 
 ### ✨ 功能：
 
-| 状态 / Status | 项目 / Project  | 功能 / Function                                       |
-| ------------- | --------------- | ----------------------------------------------------- |
-| ⚓️             | cynops-database | 数据库封装                                            |
-| 🍻             | cynops-event    | Event Bus 实现                                        |
-| ⚓️             | cynops-extra    | 邮件工具 二维码工具 OAuth工具 一些稀奇古怪的第三方API |
-| ⚓️             | cynops-io       | IO 工具                                               |
-| 🚧             | cynops-lang     | 基本类型工具以及扩展基本类型                          |
-| 🕸             | cynops-script   | 脚本引擎                                              |
-| 🚧             | cynops-security | 安全工具 目前是摘要、对称/非对称加密算法的封装        |
-| 🕸             | cynops-server   | 计划包括 Http Websocket TCP UDP KCP 等服务端封装      |
-| ⚓️             | cynops-task     | 线程池 进程池 定时任务 守护进程                       |
-| 🕸             | cynops-tool     | 送一个下崽器（错乱）                                  |
+| 状态 / Status | 项目 / Project  | 功能 / Function                                              |
+| ------------- | --------------- | ------------------------------------------------------------ |
+| ⚓️             | cynops-database | 数据库封装                                                   |
+| 🍻             | cynops-event    | Event Bus 实现                                               |
+| ⚓️             | cynops-extra    | 邮件工具 二维码工具 OAuth 工具 2FA 工具 一些稀奇古怪的第三方API |
+| ⚓️             | cynops-io       | IO 工具                                                      |
+| 🚧             | cynops-lang     | 基本类型工具以及扩展基本类型                                 |
+| 🕸             | cynops-script   | 脚本引擎                                                     |
+| 🚧             | cynops-security | 安全工具 目前是摘要、对称/非对称加密算法的封装               |
+| 🕸             | cynops-server   | 计划包括 Http Websocket TCP UDP KCP 等服务端封装             |
+| ⚓️             | cynops-task     | 线程池 进程池 定时任务 守护进程                              |
+| 🕸             | cynops-tool     | 送一个下崽器（错乱）                                         |
 
 🚧 表示该模块正在编写  <br />
 
