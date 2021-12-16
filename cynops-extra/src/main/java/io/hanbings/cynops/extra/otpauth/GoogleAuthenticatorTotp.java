@@ -21,11 +21,11 @@ import java.util.Arrays;
 import java.util.Locale;
 
 /**
- * Google Authenticator 谷歌验证器的验证和密钥生成 <br>
+ * Google Authenticator 谷歌验证器基于时间的二步认证的验证和密钥生成 <br>
  * 谷歌验证器要求密钥需要为 Base32 且 url 中包含密钥
  */
 @SuppressWarnings("unused SpellCheckingInspection")
-public class GoogleAuthenticator {
+public class GoogleAuthenticatorTotp {
     private static final char[] ALPHABET = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
             'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '2', '3', '4', '5', '6', '7'};
     private static final byte[] DECODE_TABLE;
