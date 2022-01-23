@@ -22,12 +22,18 @@ import java.sql.SQLException;
 
 @SuppressWarnings("unused")
 public class SqliteConnector {
-    public static Connection getSQLiteConnection(String path) {
+    public static Connection getSqliteConnection(String path) {
+        // 加载驱动
         try {
             Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException exception) {
+            exception.printStackTrace();
+        }
+        // 获取连接
+        try {
             return DriverManager.getConnection("jdbc:sqlite:" + path);
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
         return null;
     }

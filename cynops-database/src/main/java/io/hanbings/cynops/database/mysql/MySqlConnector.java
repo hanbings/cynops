@@ -30,25 +30,18 @@ public class MySqlConnector {
         // 先处理 8.x 版本的 Mysql JDBC
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            try {
-                return DriverManager.getConnection(url, username, password);
-            } catch (SQLException e) {
-                // 链接异常 没得救 抛出异常
-                e.printStackTrace();
-            }
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException found) {
             // 版本不对 处理版本
             try {
                 Class.forName("com.mysql.jdbc.Driver");
-            } catch (ClassNotFoundException ex) {
-                ex.printStackTrace();
+            } catch (ClassNotFoundException exception) {
+                exception.printStackTrace();
             }
-            try {
-                return DriverManager.getConnection(url, username, password);
-            } catch (SQLException ex) {
-                // 链接异常 没得救 抛出
-                ex.printStackTrace();
-            }
+        }
+        try {
+            return DriverManager.getConnection(url, username, password);
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
         return null;
     }
