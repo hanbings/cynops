@@ -16,5 +16,44 @@
 
 package io.hanbings.cynops.io;
 
+import java.io.File;
+import java.io.IOException;
+
+@SuppressWarnings("unused")
 public class FileUtils {
+
+    /**
+     * 初始化一个文件，包括创建它的父文件夹与创建它本身。
+     * @param file 要初始化的文件。
+     * @return 初始化成功则返回传入的参数，否则返回 {@code null}。
+     */
+    public static File file(File file) {
+        if (!file.exists()) {
+            folder(file.getParentFile());
+            try {
+                if (!file.createNewFile()) {
+                    return null;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return file;
+    }
+
+    /**
+     * 初始化一个文件夹，包括创建它的父文件夹与创建它本身。
+     * @param folder 要初始化的文件夹。
+     * @return 初始化成功则返回传入的参数，否则返回 {@code null}。
+     */
+    public static File folder(File folder) {
+        if (!folder.exists()) {
+            if (folder.isFile() || !folder.mkdirs()) {
+                return null;
+            }
+        }
+        return folder;
+    }
+
 }
