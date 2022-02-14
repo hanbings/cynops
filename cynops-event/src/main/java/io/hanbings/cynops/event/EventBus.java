@@ -36,9 +36,10 @@ public class EventBus {
                 if (event instanceof Blockable && ((Blockable) event).isBlocked()) {
                     return;
                 }
+                // isIgnoreCancelled 为 true 继续执行
                 if (event instanceof Cancellable
                         && ((Cancellable) event).isCancelled()
-                        && handler.isIgnoreCancelled()) {
+                        && !handler.isIgnoreCancelled()) {
                     continue;
                 }
                 try {
