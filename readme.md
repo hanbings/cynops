@@ -33,19 +33,17 @@
 | ⚓️             | cynops-extra    | 邮件工具 二维码工具 OAuth 工具 2FA 工具 一些稀奇古怪的第三方API |
 | ⚓️             | cynops-io       | IO 工具                                                      |
 | 🚧             | cynops-lang     | 基本类型工具以及扩展基本类型                                 |
-| 🕸             | cynops-script   | 脚本引擎                                                     |
-| 🚧             | cynops-security | 安全工具 目前是摘要、对称/非对称加密算法的封装               |
-| 🕸             | cynops-server   | 计划包括 Http Websocket TCP UDP KCP 等服务端封装             |
+| ⚓️             | cynops-script   | 脚本引擎                                                     |
+| 🍻             | cynops-security | 安全工具 目前是摘要、对称/非对称加密算法的封装               |
+| ⚓️             | cynops-server   | 计划包括 Http Websocket TCP UDP KCP 等服务端封装             |
 | ⚓️             | cynops-task     | 线程池 进程池 定时任务 守护进程                              |
-| 🕸             | cynops-tool     | 送一个下崽器（错乱）                                         |
+| ⚓️             | cynops-tool     | 送一个下崽器（错乱）                                         |
 
-🚧 表示该模块正在编写  <br />
+🚧 正在完成一部分功但未达到可使用程度 <br />
 
-🍻 表示该模块已经完成了某一轮开发期 正在修复 bug 优化 提高性能与等待发布<br />
+🍻 已经开始进行稳定开发且已经可以使用一部分功能 <br />
 
-⚓️表示该模块的优先级较低 但完成当前活跃模块后进行编写<br />
-
-🕸 表示该模块在短期内将不会进行开发
+⚓️ 摸鱼了 咕咕咕<br />
 
 
 
