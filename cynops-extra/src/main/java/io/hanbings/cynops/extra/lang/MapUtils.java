@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.hanbings.cynops.lang;
+package io.hanbings.cynops.extra.lang;
 
 @SuppressWarnings("unused")
 public class MapUtils {

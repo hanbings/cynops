@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.hanbings.cynops.extra.mail;
+package io.hanbings.cynops.tool.mail;
 
 import com.sun.mail.util.MailSSLSocketFactory;
 

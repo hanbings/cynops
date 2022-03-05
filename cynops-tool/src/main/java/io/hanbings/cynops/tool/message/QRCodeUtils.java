@@ -14,13 +14,8 @@
  * limitations under the License.
  */
 
-package io.hanbings.cynops.database.interfaces;
+package io.hanbings.cynops.tool.message;
 
 @SuppressWarnings("unused")
-public class SqliteDataType {
-    public static final String NULL = "NULL";
-    public static final String INTEGER = "INTEGER";
-    public static final String REAL = "REAL";
-    public static final String TEXT = "TEXT";
-    public static final String BLOB = "BLOB";
+public class QRCodeUtils {
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.hanbings.cynops.lang;
+package io.hanbings.cynops.extra.lang;
 
 /**
  * 按照 apache common lang 的 Javadocs 来列举需要实现的方法 <br>
