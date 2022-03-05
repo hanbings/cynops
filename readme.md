@@ -53,7 +53,11 @@ EventBus 解析：[Java实现一个简单的EventBus](https://blog.hanbings.io/2
 
 ### 🍺 使用：
 
-目前，Cynops 发布在私有仓库
+Cynops 分为两个版本 dev 开发版本和 release 发布版本
+
+release 每一次发布都会同步一次 [release 分支](https://github.com/Hanbings/cynops/tree/release) 主分支 main 则为最新 dev 版本的代码
+
+无论是 dev 还是 release 都会发布 jar 到私有 maven 仓库
 
 https://repository.hanbings.com/
 
