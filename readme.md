@@ -8,8 +8,8 @@
 
 ### 🍔 自我介绍：
 
-你好！很高兴遇见你！我的名字叫蝾螈！<br />
-我是为了减少搜索频率，增加键盘寿命而生的！<br />
+你好！很高兴遇见你！我的名字叫蝾螈！
+我是为了减少搜索频率，增加键盘寿命而生的！
 你也可以把我视作一个把各种要频繁搜索的内容放到一起而已，并不是什么认真设计的项目
 
 
@@ -26,30 +26,22 @@
 
 ### ✨ 功能：
 
-| 状态 / Status | 项目 / Project  | 功能 / Function                                              |
-| ------------- | --------------- | ------------------------------------------------------------ |
-| ⚓️             | cynops-database | 数据库封装                                                   |
-| 🍻             | cynops-event    | Event Bus 实现                                               |
-| ⚓️             | cynops-extra    | 邮件工具 二维码工具 OAuth 工具 2FA 工具 一些稀奇古怪的第三方API |
-| ⚓️             | cynops-io       | IO 工具                                                      |
-| 🚧             | cynops-lang     | 基本类型工具以及扩展基本类型                                 |
-| ⚓️             | cynops-script   | 脚本引擎                                                     |
-| 🍻             | cynops-security | 安全工具 目前是摘要、对称/非对称加密算法的封装               |
-| ⚓️             | cynops-server   | 计划包括 Http Websocket TCP UDP KCP 等服务端封装             |
-| ⚓️             | cynops-task     | 线程池 进程池 定时任务 守护进程                              |
-| ⚓️             | cynops-tool     | 送一个下崽器（错乱）                                         |
+| 状态 / Status | 项目 / Project  | 功能 / Function                                              | 是否为 Java 原生（无依赖）/ No third party dependencies |
+| ------------- | --------------- | ------------------------------------------------------------ | ------------------------------------------------------- |
+| 🍻             | cynops-event    | Event Bus 实现                                               | ✔️                                                       |
+| ⚓️             | cynops-extra    | IO工具 基本类型工具以及扩展基本类型                          | ✔️                                                       |
+| 🍻             | cynops-security | 安全工具 目前是摘要、对称/非对称加密算法的封装               | ✔️                                                       |
+| ⚓️             | cynops-tool     | 邮件工具 二维码工具 OAuth 工具 2FA 工具 一些稀奇古怪的第三方API 送一个下崽器（错乱） | ❌                                                       |
 
-🚧 正在完成一部分功但未达到可使用程度 <br />
+🚧 正在完成一部分功但未达到可使用程度
 
-🍻 已经开始进行稳定开发且已经可以使用一部分功能 <br />
-
-⚓️ 摸鱼了 咕咕咕<br />
+🍻 已经开始进行稳定开发且已经可以使用一部分功能
 
 
 
 ### 🎯 TODO：
 
-查看 TODO 列表：[TODO](https://github.com/Hanbings/Cynops/projects/2)
+
 
 
 
@@ -61,9 +53,9 @@ EventBus 解析：[Java实现一个简单的EventBus](https://blog.hanbings.io/2
 
 ### 🍺 使用：
 
-目前，Cynops 发布在私有仓库<br />
+目前，Cynops 发布在私有仓库
 
-https://repository.hanbings.com/<br />
+https://repository.hanbings.com/
 
 前往仓库查看需要的版本并引用它即可
 
