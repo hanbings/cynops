@@ -17,5 +17,12 @@ package io.hanbings.cynops.auth.oauth.interfaces;
 
 @SuppressWarnings("unused")
 public interface OAuthRefreshable {
-    boolean refresh();
+    /**
+     * 生成刷新 url
+     *
+     * @param config OAuthConfig
+     * @param token  对应的 token
+     * @return 刷新 url
+     */
+    String refresh(OAuthConfig config, String token);
 }

@@ -17,5 +17,12 @@ package io.hanbings.cynops.auth.oauth.interfaces;
 
 @SuppressWarnings("unused")
 public interface OAuthRevocable {
-    boolean revoke();
+    /**
+     * 撤销 OAuth 权限 仅生成 url
+     *
+     * @param config OAuthConfig
+     * @param token  对应的 token
+     * @return 撤销权限 url
+     */
+    String revoke(OAuthConfig config, String token);
 }

@@ -15,7 +15,17 @@
  */
 package io.hanbings.cynops.auth.oauth.interfaces;
 
-@SuppressWarnings("unused")
-public enum ProxyType {
-    HTTP, SOCK5
+/**
+ * 生成 state
+ *
+ * @author hanbings
+ */
+public interface OAuthState {
+    /**
+     * state 可以防止中间人攻击 OAuth 建议使用
+     * 需要自定义生成器继承接口并在 Config 中 set 即可
+     *
+     * @return 生成的 state
+     */
+    String state();
 }
