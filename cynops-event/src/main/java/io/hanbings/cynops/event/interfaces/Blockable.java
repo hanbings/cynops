@@ -24,6 +24,7 @@ package io.hanbings.cynops.event.interfaces;
  */
 @SuppressWarnings("unused SpellCheckingInspection")
 public interface Blockable {
-    void setBlocked(boolean block);
     boolean isBlocked();
+
+    void setBlocked(boolean block);
 }

@@ -24,6 +24,7 @@ public class FileUtils {
 
     /**
      * 初始化一个文件，包括创建它的父文件夹与创建它本身。
+     *
      * @param file 要初始化的文件。
      * @return 初始化成功则返回传入的参数，否则返回 {@code null}。
      */
@@ -44,6 +45,7 @@ public class FileUtils {
 
     /**
      * 初始化一个文件夹，包括创建它的父文件夹与创建它本身。
+     *
      * @param folder 要初始化的文件夹。
      * @return 初始化成功则返回传入的参数，否则返回 {@code null}。
      */

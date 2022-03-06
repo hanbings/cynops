@@ -18,7 +18,11 @@ package io.hanbings.cynops.event.interfaces;
 
 import io.hanbings.cynops.event.EventPriority;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -26,5 +30,6 @@ import java.lang.annotation.*;
 @SuppressWarnings("unused")
 public @interface EventHandler {
     EventPriority priority() default EventPriority.NORMAL;
+
     boolean ignoreCancelled() default false;
 }

@@ -2,4 +2,6 @@ rootProject.name = 'cynops'
 include 'cynops-event'
 include 'cynops-extra'
 include 'cynops-tool'
-include 'cynops-security'
+include 'cynops-crypto'
+include 'cynops-auth'
+
