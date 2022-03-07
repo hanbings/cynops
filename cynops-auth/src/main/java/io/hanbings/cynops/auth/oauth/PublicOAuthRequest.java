@@ -15,13 +15,11 @@
  */
 package io.hanbings.cynops.auth.oauth;
 
-import io.hanbings.cynops.auth.oauth.interfaces.OAuthState;
+import io.hanbings.cynops.auth.oauth.interfaces.OAuthRequest;
 
-import java.util.UUID;
-
-public class PublicOAuthState implements OAuthState {
+public class PublicOAuthRequest implements OAuthRequest {
     @Override
-    public String state() {
-        return UUID.randomUUID().toString();
+    public String request(String url) {
+        return null;
     }
 }

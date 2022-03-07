@@ -13,15 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hanbings.cynops.auth.oauth;
+package io.hanbings.cynops.auth.oauth.interfaces;
 
-import io.hanbings.cynops.auth.oauth.interfaces.OAuthState;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
-import java.util.UUID;
-
-public class PublicOAuthState implements OAuthState {
-    @Override
-    public String state() {
-        return UUID.randomUUID().toString();
-    }
+@Data
+@Builder
+@AllArgsConstructor
+public class OAuthClient {
+    // 客户端 id
+    final String clientId;
+    // 客户端密钥
+    final String clientSecret;
+    // callback 链接
+    final String redirectUri;
 }

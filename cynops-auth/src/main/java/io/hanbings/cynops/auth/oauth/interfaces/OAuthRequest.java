@@ -13,15 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.hanbings.cynops.auth.oauth;
+package io.hanbings.cynops.auth.oauth.interfaces;
 
-import io.hanbings.cynops.auth.oauth.interfaces.OAuthState;
-
-import java.util.UUID;
-
-public class PublicOAuthState implements OAuthState {
-    @Override
-    public String state() {
-        return UUID.randomUUID().toString();
-    }
+public interface OAuthRequest {
+    String request(String url);
 }

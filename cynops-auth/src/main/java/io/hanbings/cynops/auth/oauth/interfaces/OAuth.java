@@ -16,29 +16,7 @@
 package io.hanbings.cynops.auth.oauth.interfaces;
 
 public interface OAuth {
-    /**
-     * 生成授权地址 仅生成 url
-     *
-     * @param config OAuthConfig
-     * @return 授权地址 uri
-     */
     String authorize(OAuthConfig config);
-
-    /**
-     * 生成 token 用户凭据获取 url
-     *
-     * @param config   OAuthConfig
-     * @param callback authorize 生成的 URL 为用户重定向后返回的数据 无需解析 直接传入 仅生成 url
-     * @return 获取到用户的访问凭据
-     */
     String token(OAuthConfig config, String callback);
-
-    /**
-     * 使用 token 方法中获取到的 token 用户凭据访问用户数据 仅生成 url
-     *
-     * @param config OAuthConfig
-     * @param token  有效访问凭据
-     * @return 获取到的用户数据
-     */
-    String data(OAuthConfig config, String token);
+    String resources(OAuthConfig config, String callback);
 }
