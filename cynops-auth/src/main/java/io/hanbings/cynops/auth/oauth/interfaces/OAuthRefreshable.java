@@ -24,5 +24,5 @@ public interface OAuthRefreshable {
      * @param token  对应的 token
      * @return 刷新 url
      */
-    String refresh(OAuthConfig config, String token);
+    String refresh(OAuthClient config, String token);
 }

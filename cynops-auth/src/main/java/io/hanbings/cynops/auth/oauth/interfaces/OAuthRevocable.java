@@ -24,5 +24,5 @@ public interface OAuthRevocable {
      * @param token  对应的 token
      * @return 撤销权限 url
      */
-    String revoke(OAuthConfig config, String token);
+    String revoke(OAuthClient config, String token);
 }
