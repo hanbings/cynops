@@ -18,6 +18,7 @@ package io.hanbings.cynops.auth.oauth.interfaces;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.io.IOException;
 import java.util.List;
 
 @Data
@@ -44,9 +45,9 @@ public abstract class OAuthClient {
 
     public abstract String authorize();
 
-    public abstract String token(String code);
+    public abstract String token(String code) throws IOException;
 
-    public abstract String resource(String token);
+    public abstract String resource(String token) throws IOException;
 
-    public abstract String resource(String token, String url);
+    public abstract String resource(String token, String url) throws IOException;
 }

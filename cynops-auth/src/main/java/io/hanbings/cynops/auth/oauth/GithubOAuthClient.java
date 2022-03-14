@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,13 +32,14 @@ public class GithubOAuthClient extends OAuthClient {
         this.login = login;
     }
 
+
     @Override
     public String authorize() {
         // 生成请求 url
-        String url = Objects.equals(this.getAuthorizationUrl(), null)
-                ? OAuth.GitHub.AUTHORIZE : this.getAuthorizationUrl()
+        String url = (Objects.equals(this.getAuthorizationUrl(), null)
+                ? OAuth.GitHub.AUTHORIZE : this.getAuthorizationUrl())
                 + "?client_id=" + this.getClient().getClientId()
-                + "&redirect_uri=" + this.getClient().getClientSecret();
+                + "&redirect_uri=" + this.getClient().getRedirectUri();
 
         // 其他参数
         // allow signup 默认为 true 如果是 false 就加上参数
@@ -47,16 +49,16 @@ public class GithubOAuthClient extends OAuthClient {
         // 权限域 如果为空则为获取全部权限
         if (this.getScope() != null) url += "&scope=" + String.join("%20", this.getScope());
         // state 生成
-        if (!this.isNotUseState()) url += this.getState().state();
+        if (!this.isNotUseState()) url += "&state=" + this.getState().state();
 
         return url;
     }
 
     @Override
-    public String token(String code) {
+    public String token(String code) throws IOException {
         // 检测请求器
         if (Objects.equals(this.getRequest(), null)) {
-            this.setRequest(new VertxOAuthRequest());
+            this.setRequest(new OkHttpOAuthRequest());
         }
 
         // 生成请求参数
@@ -71,16 +73,26 @@ public class GithubOAuthClient extends OAuthClient {
 
         // 请求
         return this.getRequest().post(Objects.equals(this.getTokenUrl(), null)
-                ? OAuth.TransFur.ACCESS_TOKEN : this.getTokenUrl(), params);
+                ? OAuth.GitHub.ACCESS_TOKEN : this.getTokenUrl(), params);
     }
 
     @Override
-    public String resource(String token) {
-        return null;
+    public String resource(String token) throws IOException {
+        HashMap<String, String> header = new HashMap<>() {{
+            put("Authorization", "token " + token);
+        }};
+
+        return this.getRequest().get(Objects.equals(this.getTokenUrl(), null)
+                ? OAuth.GitHub.USER_DATA : this.getTokenUrl(), header);
     }
 
     @Override
-    public String resource(String token, String url) {
-        return null;
+    public String resource(String token, String url) throws IOException {
+        HashMap<String, String> header = new HashMap<>() {{
+            put("Authorization", "token " + token);
+        }};
+
+        return this.getRequest().get(Objects.equals(this.getTokenUrl(), null)
+                ? OAuth.GitHub.USER_DATA : this.getTokenUrl(), header);
     }
 }

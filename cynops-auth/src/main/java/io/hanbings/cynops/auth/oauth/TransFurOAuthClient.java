@@ -7,6 +7,7 @@ import io.hanbings.cynops.auth.oauth.interfaces.OAuthState;
 import io.hanbings.cynops.auth.oauth.type.OAuth;
 import lombok.Builder;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,10 +40,10 @@ public class TransFurOAuthClient extends OAuthClient {
     }
 
     @Override
-    public String token(String code) {
+    public String token(String code) throws IOException {
         // 检测请求器
         if (Objects.equals(this.getRequest(), null)) {
-            this.setRequest(new VertxOAuthRequest());
+            this.setRequest(new OkHttpOAuthRequest());
         }
 
         // 生成请求参数
@@ -62,12 +63,28 @@ public class TransFurOAuthClient extends OAuthClient {
     }
 
     @Override
-    public String resource(String token) {
-        return null;
+    public String resource(String token) throws IOException {
+        HashMap<String, String> header = new HashMap<>() {
+            {
+                put("Authorization", "Bearer " + token);
+                put("Accept", "application/json");
+            }
+        };
+
+        return this.getRequest().get(Objects.equals(this.getTokenUrl(), null)
+                ? OAuth.TransFur.USER_DATA : this.getTokenUrl(), header);
     }
 
     @Override
-    public String resource(String token, String url) {
-        return null;
+    public String resource(String token, String url) throws IOException {
+        HashMap<String, String> header = new HashMap<>() {
+            {
+                put("Authorization", "Bearer " + token);
+                put("Accept", "application/json");
+            }
+        };
+
+        return this.getRequest().get(Objects.equals(url, null)
+                ? OAuth.TransFur.USER_DATA : url, header);
     }
 }

@@ -15,8 +15,11 @@
  */
 package io.hanbings.cynops.auth.oauth.interfaces;
 
+import java.io.IOException;
 import java.util.Map;
 
 public interface OAuthRequest {
-    String post(String url, Map<String, String> params);
+    String post(String url, Map<String, String> params) throws IOException;
+
+    String get(String url, Map<String, String> headers) throws IOException;
 }
