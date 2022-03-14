@@ -18,13 +18,15 @@ package io.hanbings.cynops.auth.oauth.interfaces;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 public abstract class OAuthClient {
     // 密钥与回调地址
     OAuthConfig client;
     // 需要申请的权限
-    String scope;
+    List<String> scope;
     // state 保护密钥 用于预防中间人攻击 建议使用
     OAuthState state;
     // state 保护密钥开关 默认为 false 即使用 state
@@ -37,8 +39,14 @@ public abstract class OAuthClient {
     String tokenUrl;
     // 使用 token 获取资源的地址
     String resourceUrl;
+    // http client 设置
+    OAuthRequest request;
 
     public abstract String authorize();
-    public abstract String token(String callback);
-    public abstract String resources(String callback);
+
+    public abstract String token(String code);
+
+    public abstract String resource(String token);
+
+    public abstract String resource(String token, String url);
 }

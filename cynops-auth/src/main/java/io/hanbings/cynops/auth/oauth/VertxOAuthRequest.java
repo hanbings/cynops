@@ -16,10 +16,26 @@
 package io.hanbings.cynops.auth.oauth;
 
 import io.hanbings.cynops.auth.oauth.interfaces.OAuthRequest;
+import io.vertx.core.MultiMap;
+import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
+import io.vertx.ext.web.client.HttpResponse;
+import io.vertx.ext.web.client.WebClient;
 
-public class PublicOAuthRequest implements OAuthRequest {
+import java.util.Map;
+
+public class VertxOAuthRequest implements OAuthRequest {
+
+    static WebClient client = WebClient.create(Vertx.vertx());
+
     @Override
-    public String request(String url) {
-        return null;
+    public String post(String url, Map<String, String> params) {
+        // 转换为 MultiMap
+        MultiMap form = MultiMap.caseInsensitiveMultiMap();
+        params.forEach(form::add);
+
+        // 发起请求 返回结果
+        HttpResponse<Buffer> response = client.post(url).sendForm(form).result();
+        return response.body().toString();
     }
 }

@@ -15,6 +15,8 @@
  */
 package io.hanbings.cynops.auth.oauth.interfaces;
 
+import java.util.Map;
+
 public interface OAuthRequest {
-    String request(String url);
+    String post(String url, Map<String, String> params);
 }

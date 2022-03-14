@@ -19,7 +19,7 @@ import io.hanbings.cynops.auth.oauth.interfaces.OAuthState;
 
 import java.util.UUID;
 
-public class PublicOAuthState implements OAuthState {
+public class UuidOAuthState implements OAuthState {
     @Override
     public String state() {
         return UUID.randomUUID().toString();

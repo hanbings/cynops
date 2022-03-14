@@ -6,48 +6,34 @@ import io.hanbings.cynops.auth.oauth.interfaces.OAuthRequest;
 import io.hanbings.cynops.auth.oauth.interfaces.OAuthState;
 import io.hanbings.cynops.auth.oauth.type.OAuth;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class GithubOAuthClient extends OAuthClient {
-    @Setter
-    @Getter
-    boolean allowSignup;
-    @Setter
-    @Getter
-    String login;
+public class TransFurOAuthClient extends OAuthClient {
 
     @Builder
-    public GithubOAuthClient(OAuthConfig client, List<String> scope, OAuthState state, boolean notUseState,
-                             String grantType, String authorizationUrl, String tokenUrl, String resourceUrl,
-                             OAuthRequest request, boolean allowSignup, String login) {
+    public TransFurOAuthClient(OAuthConfig client, List<String> scope, OAuthState state, boolean notUseState,
+                               String grantType, String authorizationUrl, String tokenUrl, String resourceUrl
+            , OAuthRequest request) {
         super(client, scope, state, notUseState, grantType, authorizationUrl, tokenUrl, resourceUrl, request);
-        this.allowSignup = allowSignup;
-        this.login = login;
     }
 
     @Override
     public String authorize() {
         // 生成请求 url
-        String url = Objects.equals(this.getAuthorizationUrl(), null)
-                ? OAuth.GitHub.AUTHORIZE : this.getAuthorizationUrl()
+        String url = (Objects.equals(this.getAuthorizationUrl(), null)
+                ? OAuth.TransFur.AUTHORIZE : this.getAuthorizationUrl())
                 + "?client_id=" + this.getClient().getClientId()
-                + "&redirect_uri=" + this.getClient().getClientSecret();
+                + "&redirect_uri=" + this.getClient().getRedirectUri()
+                + "&response_type=" + "code";
 
-        // 其他参数
-        // allow signup 默认为 true 如果是 false 就加上参数
-        if (!this.isAllowSignup()) url += "&allow_signup=false";
-        // 指定一个账户登录
-        if (this.getLogin() != null) url += "&login=" + this.getLogin();
-        // 权限域 如果为空则为获取全部权限
+        // 权限域
         if (this.getScope() != null) url += "&scope=" + String.join("%20", this.getScope());
         // state 生成
-        if (!this.isNotUseState()) url += this.getState().state();
+        if (!this.isNotUseState()) url += "&state=" + this.getState().state();
 
         return url;
     }
@@ -65,6 +51,7 @@ public class GithubOAuthClient extends OAuthClient {
                 put("client_id", getClient().getClientId());
                 put("client_secret", getClient().getClientSecret());
                 put("redirect_uri", getClient().getRedirectUri());
+                put("grant_type", getGrantType());
                 put("code", code);
             }
         };
